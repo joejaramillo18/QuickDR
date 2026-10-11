@@ -48,10 +48,23 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--ff);font-si
 .optrow .optva{background:#101210;border:1px solid var(--line);color:var(--fg);border-radius:6px;padding:6px 5px;font-size:11.5px;font-family:inherit;width:100%}
 .optrow .am2{display:block;font-size:9.5px;color:var(--green);font-weight:700;text-align:right;margin-top:1px}
 .optrow .optmode:focus,.optrow .optva:focus{outline:2px solid var(--green);border-color:var(--green)}
-.futgrid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
-.futchip{display:flex;align-items:center;gap:8px;border:1px solid #abe0c3;background:var(--greenwash);border-radius:999px;padding:5px 12px}
-.futchip .futn{font-size:12px;font-weight:600;color:var(--ink)}.futchip .futa{font-size:12px;font-weight:700;color:var(--green-d)}
-.futnote{background:var(--inkwash);border:1px solid var(--dline);border-radius:10px;padding:12px 14px;font-size:12px;color:#39463f;line-height:1.5}
+.futgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:16px}
+.futcard{border:1px solid #abe0c3;background:var(--greenwash);border-radius:11px;padding:14px 16px}
+.futcard-h{display:flex;align-items:center;gap:9px}
+.futcard-ic{width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;color:var(--green-d)}
+.futcard-ic svg{width:19px;height:19px}
+.futcard-n{font-size:14px;font-weight:700;color:var(--ink);flex:1}
+.futcard-a{font-size:16px;font-weight:700;color:var(--green-d);letter-spacing:-.02em}
+.futcard-w{font-size:12px;color:#2f4a3b;line-height:1.5;margin-top:8px}
+.futbar-wrap{margin-bottom:16px}
+.futbar-lab{display:flex;justify-content:space-between;font-size:11px;font-weight:600;color:var(--dmut);margin-bottom:6px}
+.futbar{position:relative;height:22px;border-radius:7px;background:var(--inkwash);border:1px solid var(--dline);overflow:hidden}
+.futbar-used{position:absolute;left:0;top:0;bottom:0;background:var(--green)}
+.futbar-new{position:absolute;top:0;bottom:0;background:repeating-linear-gradient(45deg,#a9e4c2,#a9e4c2 5px,#cdeed9 5px,#cdeed9 10px)}
+.futbar-key{display:flex;gap:20px;font-size:11px;color:#39463f;margin-top:7px}
+.futbar-key i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.futbar-key i.k-used{background:var(--green)}.futbar-key i.k-new{background:repeating-linear-gradient(45deg,#a9e4c2,#a9e4c2 3px,#cdeed9 3px,#cdeed9 6px);border:1px solid #abe0c3}
+.futnote{background:var(--inkwash);border:1px solid var(--dline);border-radius:10px;padding:14px 16px;font-size:12px;color:#39463f;line-height:1.5}
 .stage{overflow:auto;background:#e9eae9;padding:0}
 .bar{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:12px;background:rgba(245,246,245,.94);backdrop-filter:blur(6px);border-bottom:1px solid #d6d8d6;padding:10px 20px}
 .bar .bt{font-size:11px;color:var(--dmut);margin-right:auto}
@@ -72,11 +85,26 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--ff);font-si
 .doc{max-width:880px;margin:0 auto;background:var(--doc);color:var(--ink);border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,.18);overflow:hidden}
 .cvmast{background:var(--ink);color:#fff;padding:20px 44px 17px;display:flex;justify-content:space-between;align-items:flex-end;gap:20px;border-bottom:5px solid var(--green)}
 .cvmast .splogo{font-size:30px}.cvmast .msub{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--green);font-weight:700;white-space:nowrap;padding-bottom:4px}
-.cover{padding:30px 44px 26px}
-.cvrule{width:54px;height:4px;background:var(--green);margin-bottom:16px;border-radius:2px}
-.cov-h{font-size:40px;line-height:1.02;letter-spacing:-.02em;margin:0 0 8px;font-weight:700;color:var(--ink)}
-.cov-meta{color:var(--green-d);font-weight:700;font-size:15px}.cov-by{color:var(--dmut);font-size:12.5px;margin-top:9px}
-.exbadge{display:inline-block;margin-top:14px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#5c6b62;border:1px solid var(--dline);border-radius:999px;padding:5px 11px}
+.coverpage{display:flex;flex-direction:column}
+.cover{flex:1;display:grid;grid-template-columns:1.3fr 1fr;gap:36px;padding:40px 44px}
+@media(max-width:720px){.cover{grid-template-columns:1fr;gap:20px}}
+.cover-left{display:flex;flex-direction:column}
+.cov-eye{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--green-d);font-weight:700;margin-bottom:12px}
+.cvrule{width:54px;height:4px;background:var(--green);margin-bottom:18px;border-radius:2px}
+.cov-h{font-size:44px;line-height:1.02;letter-spacing:-.02em;margin:0 0 6px;font-weight:700;color:var(--ink)}
+.cov-sub{font-size:20px;font-weight:700;color:var(--green-d)}
+.cov-meta{color:var(--dmut);font-weight:600;font-size:14px;margin-top:6px}
+.cov-lede{font-size:14px;color:var(--ink);line-height:1.6;margin-top:18px;max-width:30em}
+.exbadge{display:inline-block;margin-top:auto;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#5c6b62;border:1px solid var(--dline);border-radius:999px;padding:6px 12px;align-self:flex-start}
+.cover-right{display:flex;align-items:stretch}
+.titleblock{width:100%;border:1px solid var(--dline);border-radius:12px;overflow:hidden;align-self:center}
+.tb-h{background:var(--ink);color:#fff;font-size:11px;text-transform:uppercase;letter-spacing:.1em;font-weight:700;padding:10px 16px;border-bottom:3px solid var(--green)}
+.tb-row{display:flex;justify-content:space-between;gap:14px;padding:10px 16px;border-bottom:1px solid var(--dline);font-size:12.5px}
+.tb-row:last-child{border-bottom:none}
+.tb-row span{color:var(--dmut)}.tb-row b{color:var(--ink);text-align:right}
+.tb-row:nth-child(even){background:var(--inkwash)}
+.coverfoot{display:flex;justify-content:space-between;gap:16px;padding:12px 44px;background:var(--ink);color:#cfd2cf;font-size:10px;border-top:3px solid var(--green)}
+.coverfoot span:first-child{color:#fff;font-weight:600}
 section{padding:22px 44px;border-top:1px solid var(--dline)}
 .eyebrow{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--green-d);font-weight:700;margin-bottom:6px}
 .s-title{font-size:22px;line-height:1.12;margin:0 0 16px;font-weight:700;letter-spacing:-.01em;color:var(--ink)}
@@ -84,6 +112,11 @@ section{padding:22px 44px;border-top:1px solid var(--dline)}
 .bottom{display:grid;grid-template-columns:1fr 1fr;gap:26px}@media(max-width:720px){.bottom{grid-template-columns:1fr}}
 .bl-nums{display:flex;flex-direction:column;gap:16px}.bl-big{font-size:58px;font-weight:700;line-height:.9;letter-spacing:-.03em}
 .bl-cap{font-size:12.5px;color:var(--ink);margin-top:6px;line-height:1.4}.bl-cap .dim{color:var(--dmut)}
+.bl-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:8px}
+.bl-st{border:1px solid var(--dline);border-radius:9px;padding:11px 12px;background:#fff}
+.bl-st span{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--dmut);font-weight:700;margin-bottom:3px}
+.bl-st b{font-size:22px;font-weight:700;letter-spacing:-.02em}
+.bl-st.prime{background:var(--greenwash);border-color:#bfe6cf}
 .why{background:var(--inkwash);border:1px solid var(--dline);border-radius:10px;padding:16px 18px}
 .why-h{font-weight:700;color:var(--dmut);text-transform:uppercase;letter-spacing:.06em;font-size:11px;margin-bottom:8px}
 .why p{margin:0 0 9px;font-size:13px;line-height:1.5}
@@ -101,14 +134,15 @@ section{padding:22px 44px;border-top:1px solid var(--dline)}
 .cap-floor{position:absolute;left:0;top:0;bottom:0;background:var(--green)}
 .cap-mgd{position:absolute;top:0;bottom:0;background:repeating-linear-gradient(45deg,#a9e4c2,#a9e4c2 4px,#cdeed9 4px,#cdeed9 8px)}
 .cap-set{position:absolute;top:-2px;bottom:-2px;border-left:2px dashed var(--ink)}
-.cap-row{display:flex;justify-content:space-between;font-size:11px;margin-top:6px}.cap-row.dim{color:var(--dmut);margin-top:3px}
-.vs{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:720px){.vs{grid-template-columns:1fr}}
-.vsbox{border:1px solid var(--dline);border-radius:10px;padding:14px 16px}
+.cap-row{display:flex;justify-content:space-between;gap:12px;font-size:11px;margin-top:6px}.cap-row.dim{color:var(--dmut);margin-top:3px}.cap-row span:last-child{white-space:nowrap;flex:none}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:stretch}@media(max-width:720px){.vs{grid-template-columns:1fr}}
+.vsbox{border:1px solid var(--dline);border-radius:10px;padding:18px 20px;display:flex;flex-direction:column}
 .vsbox.opt{border-color:#f3c7d4;background:#fef5f8}
 .vs-tag{font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:var(--dmut)}
-.vs-name{font-weight:700;font-size:16px;margin-top:2px}.vs-sf{font-size:12px;color:var(--dmut);margin-bottom:8px}
-.vs-chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}.vs-chips span{font-size:10.5px;background:#fff;border:1px solid var(--dline);border-radius:999px;padding:3px 8px;color:#39463f}
+.vs-name{font-weight:700;font-size:16px;margin-top:2px;min-height:19px}.vs-sf{font-size:12px;color:var(--dmut);margin-bottom:8px;min-height:30px}
+.vs-chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px;min-height:46px;align-content:flex-start}.vs-chips span{font-size:10.5px;background:#fff;border:1px solid var(--dline);border-radius:999px;padding:3px 8px;color:#39463f;height:fit-content}
 .vs-dem{font-size:13px;border-top:1px solid var(--dline);padding-top:10px}.vs-dem b{font-size:30px;font-weight:700;display:block;letter-spacing:-.02em}
+.vsbox .cap{margin-top:12px}.vsbox .cap:last-child{margin-top:14px}
 .basis2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
 .basis2>div{background:var(--inkwash);border:1px solid var(--dline);border-radius:8px;padding:10px 12px}
 .basis2 span{display:block;font-size:10.5px;color:var(--dmut);text-transform:uppercase;letter-spacing:.06em}.basis2 b{font-size:13px}
@@ -175,14 +209,28 @@ table.basis tr.span td{background:var(--greenwash);font-weight:700;color:#0a7a45
 .foot{display:flex;justify-content:space-between;gap:16px;padding:14px 44px;background:var(--ink);color:#cfd2cf;font-size:10px}
 .foot span:first-child{color:#fff;font-weight:600}
 @media print{
-  @page{ size:letter landscape; margin:11mm }
+  @page{ size:letter landscape; margin:0 }
   html,body{background:#fff}
+  *{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important }
   .rail,.bar{display:none !important}
   .app{display:block}.stage{overflow:visible;background:#fff}.stagewrap{padding:0}
   .doc{max-width:none;width:100%;box-shadow:none;border-radius:0}
-  section,.discl{break-inside:avoid}
+  /* one section per page, content centered so each page reads full */
+  .coverpage{min-height:8.5in;break-after:page;page-break-after:always;display:flex;flex-direction:column}
+  .doc>section{break-before:page;page-break-before:always;break-inside:avoid;min-height:8.5in;display:flex;flex-direction:column;justify-content:center;padding:0.5in 0.7in}
+  .discl{margin-top:10px;padding:9px 0 0;border-top:1px solid var(--dline)}
+  .foot{display:none}
   .vsbox,.srow,.cand,.ctrlcol,.exfig,.sldfig,.why,.neverbox,.assume{break-inside:avoid}
+  /* compact the load calc page so table, assumptions and disclaimer share one page */
+  table.basis{font-size:11px}
+  table.basis td,table.basis th{padding:3px 8px}
+  .assume{margin-top:10px;padding:10px 14px}
+  .assume ol{column-count:2;column-gap:30px}
+  .assume li{break-inside:avoid;margin-bottom:3px}
+  .doc>section.calcpage{justify-content:flex-start;padding:0.4in 0.7in}
 }
+/* force brand colors to print on screen-to-PDF too */
+.cvmast,.coverfoot,.foot,.tb-h,.s-plan,.pc-top,.exwm,.cap-floor,.cap-mgd,.need-x,.ac-fill{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 </style></head><body>
 <div class="app">
   <aside class="rail">
@@ -193,18 +241,23 @@ table.basis tr.span td{background:var(--greenwash);font-weight:700;color:#0a7a45
       <div class="row2"><div class="fld"><label>Plan name</label><input id="pname" placeholder="Plan name"></div><div class="fld"><label>Livable sq ft</label><input id="sqft" type="number" value="2000"></div></div>
       <div class="row2"><div class="fld"><label>Calc area sq ft</label><input id="calcsf" type="number" placeholder="= livable"></div><div class="fld"><label>Bedrooms</label><input id="beds" type="number" placeholder="3"></div></div>
       <div class="row2"><div class="fld"><label>State (drives code)</label><select id="state"></select></div><div class="fld"><label>NEC edition</label><select id="nec"><option value="auto" selected>Auto, from state</option><option value="2020">NEC 2020</option><option value="2023">NEC 2023</option><option value="2026">NEC 2026 (early)</option></select></div></div>
-      <div class="row2"><div class="fld"><label>Utility</label><input id="utility" placeholder="Utility"></div><div class="fld"><label>Market / region</label><input id="market" placeholder="auto"></div></div>
-      <div class="row2"><div class="fld"><label>Prepared by</label><input id="prepby" placeholder="your name"></div><div class="fld"><label>Target service</label><select id="target"><option>200</option><option>320</option><option>400</option></select></div></div>
+      <div class="row2"><div class="fld"><label>Utility</label><input id="utility" placeholder="Utility"></div><div class="fld"><label>Prepared by</label><input id="prepby" placeholder="your name"></div></div>
+      <div class="row2"><div class="fld"><label>Target service</label><select id="target"><option>200</option><option>320</option><option>400</option></select></div><div class="fld"><label>Service as designed today</label><select id="asdesigned"><option value="auto" selected>Auto, from calc</option><option value="200">200A</option><option value="320">320A</option><option value="400">400A</option><option value="600">600A</option></select></div></div>
       <div class="fld"><label>SPAN setpoint %</label><input id="pct" type="number" value="80"></div>
       <div class="edtag" id="edlabel"></div></div>
     <div class="grp"><h4>Base home · 2-pole loads (editable, amps live)</h4>
-      <div class="fld"><label>Heating / cooling</label><select id="heat"><option value="gas">Gas furnace + A/C</option><option value="hp">Heat pump + electric backup</option><option value="elec">Electric furnace + A/C</option></select></div>
-      <div class="row2"><div class="fld"><label>Range / oven VA <span class="amp" id="am_cook"></span></label><input id="vacook" type="number" value="12000"></div><div class="fld"><label>Dryer VA <span class="amp" id="am_dry"></span></label><input id="vady" type="number" value="5000"></div></div>
+      <div class="fld"><label>Appliances</label><select id="energy"><option value="elec" selected>All electric (range, dryer, water)</option><option value="gas">Gas (range, dryer, water)</option><option value="mixed">Mixed, set below</option></select></div>
+      <div class="row2"><div class="fld"><label><span id="lbl_cook">Range / oven VA</span> <span class="amp" id="am_cook"></span></label><input id="vacook" type="number" value="12000"></div><div class="fld"><label>Dryer VA <span class="amp" id="am_dry"></span></label><input id="vady" type="number" value="5000"></div></div>
       <div class="row2"><div class="fld"><label>Water heater VA <span class="amp" id="am_wh"></span></label><input id="vawh" type="number" value="4500"></div><div class="fld"><label>Garage EV VA <span class="amp" id="am_ev"></span></label><input id="vaev" type="number" value="11000"></div></div>
-      <div class="row2"><div class="fld"><label>A/C condenser VA <span class="amp" id="am_ac"></span></label><input id="vaac" type="number" value="8280"></div><div class="fld"><label>Air handler VA <span class="amp" id="am_ah"></span></label><input id="vaah" type="number" value="1416"></div></div>
-      <div class="fld"><label>Backup / strip heat (kW)</label><input id="stripkw" type="number" value="0"></div>
+      <div class="fld"><label>Heating / cooling system</label><select id="heat"><option value="gas">Gas furnace + central A/C</option><option value="hp">Heat pump + electric backup</option><option value="elec">Electric furnace + central A/C</option></select></div>
+      <div class="row2"><div class="fld"><label><span id="lbl_ac">A/C condenser VA</span> <span class="amp" id="am_ac"></span></label><input id="vaac" type="number" value="8280"></div><div class="fld"><label>Air handler VA <span class="amp" id="am_ah"></span></label><input id="vaah" type="number" value="1416"></div></div>
+      <div class="fld" id="fld_strip"><label><span id="lbl_strip">Backup / aux strips (kW)</span></label><input id="stripkw" type="number" value="0"></div>
+      <label class="ck"><input type="checkbox" id="hvac2"> Second HVAC system (larger plans)</label>
+      <div id="fld_hvac2" style="display:none">
+        <div class="row2"><div class="fld"><label><span id="lbl_ac2">2nd A/C condenser VA</span> <span class="amp" id="am_ac2"></span></label><input id="vaac2" type="number" value="6000"></div><div class="fld"><label>2nd air handler VA <span class="amp" id="am_ah2"></span></label><input id="vaah2" type="number" value="1000"></div></div>
+        <div class="fld" id="fld_strip2"><label><span id="lbl_strip2">2nd backup strips (kW)</span></label><input id="strip2kw" type="number" value="0"></div></div>
       <label class="ck"><input type="checkbox" id="acreserve"> Allow A/C and heat as last-resort holds</label>
-      <div class="hint">Type what the plan load calc shows. Set a field to 0 for gas or none. The 120V general loads (lighting, small appliance, dishwasher, microwave, washer) follow the NEC optional method and are baked in.</div></div>
+      <div class="hint">Pick the system and the right heat field appears. Change a value to match the plan, or set it to 0 for none. The 120V general loads follow the NEC optional method and are baked in.</div></div>
     <div class="grp"><h4>Buyer options and adders</h4>
       <div class="opthead"><span>Mode</span><span>Option</span><span>VA</span></div>
       <div class="optrow"><select id="m_ev2" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">2nd EV charger (50A)</span><input id="v_ev2" class="optva" type="number" value="11000"><span class="amp am2" id="a_ev2"></span></div><div class="optrow"><select id="m_rvg" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">RV garage (RVG) subpanel</span><input id="v_rvg" class="optva" type="number" value="12000"><span class="amp am2" id="a_rvg"></span></div><div class="optrow"><select id="m_poolspa" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Pool / spa circuit</span><input id="v_poolspa" class="optva" type="number" value="9600"><span class="amp am2" id="a_poolspa"></span></div><div class="optrow"><select id="m_poolheat" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Electric pool heater</span><input id="v_poolheat" class="optva" type="number" value="11520"><span class="amp am2" id="a_poolheat"></span></div><div class="optrow"><select id="m_casita" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Casita / ADU subpanel</span><input id="v_casita" class="optva" type="number" value="9000"><span class="amp am2" id="a_casita"></span></div><div class="optrow"><select id="m_shop" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Workshop / detached garage</span><input id="v_shop" class="optva" type="number" value="7200"><span class="amp am2" id="a_shop"></span></div><div class="optrow"><select id="m_outkit" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Outdoor kitchen (240V)</span><input id="v_outkit" class="optva" type="number" value="7200"><span class="amp am2" id="a_outkit"></span></div><div class="optrow"><select id="m_snowmelt" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Snow melt / heated driveway</span><input id="v_snowmelt" class="optva" type="number" value="12000"><span class="amp am2" id="a_snowmelt"></span></div><div class="optrow"><select id="m_hpwh" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Electric / heat-pump water heater</span><input id="v_hpwh" class="optva" type="number" value="4500"><span class="amp am2" id="a_hpwh"></span></div><div class="optrow"><select id="m_wellpump" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Well or irrigation pump</span><input id="v_wellpump" class="optva" type="number" value="3600"><span class="amp am2" id="a_wellpump"></span></div><div class="optrow"><select id="m_floorheat" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Heated floors (electric)</span><input id="v_floorheat" class="optva" type="number" value="5000"><span class="amp am2" id="a_floorheat"></span></div><div class="optrow"><select id="m_ac2" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Second A/C zone</span><input id="v_ac2" class="optva" type="number" value="7000"><span class="amp am2" id="a_ac2"></span></div><div class="optrow"><select id="m_range2" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Induction range or double oven</span><input id="v_range2" class="optva" type="number" value="10000"><span class="amp am2" id="a_range2"></span></div><div class="optrow"><select id="m_sauna" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Sauna</span><input id="v_sauna" class="optva" type="number" value="7200"><span class="amp am2" id="a_sauna"></span></div><div class="optrow"><select id="m_rv" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">RV outlet (50A, 14-50)</span><input id="v_rv" class="optva" type="number" value="9600"><span class="amp am2" id="a_rv"></span></div>
@@ -3574,13 +3627,15 @@ function computeHome(calcSqft,o){
   const wh=o.vaWH||0, dry=o.vaDry||0, cook=o.vaCook||0;
   const generalPool=lighting+smallApp+dishDisp+micro+washer+wh+dry+cook;
   const generalDemand=Math.round(Math.min(10000,generalPool)+Math.max(0,generalPool-10000)*0.4);
-  const ac=o.vaAC||0, ah=o.vaAH||0, strip=(o.stripKw||0)*1000;
-  const coolVA=ac+ah;
-  const heatVA=(o.heat==='hp')?(ac+strip+ah):(o.heat==='elec')?(strip+ah):0;
-  const hvacVA=Math.max(coolVA,heatVA);
+  /* one HVAC system: cooling is condenser + air handler; heating adds electric heat for heat pump (compressor + strips) or electric furnace. 220.60 takes the larger, except a heat pump runs with its backup so those add. */
+  const sysHVAC=(ac,ah,strip,heat)=>{ const cool=ac+ah; const heatV=(heat==='hp')?(ac+strip+ah):(heat==='elec')?(strip+ah):0; return {gov:Math.max(cool,heatV), governsHeat:heatV>cool}; };
+  const ah=o.vaAH||0, strip=(o.stripKw||0)*1000;
+  const s1=sysHVAC(o.vaAC||0, ah, strip, o.heat);
+  const s2=o.hvac2? sysHVAC(o.vaAC2||0, o.vaAH2||0, (o.strip2Kw||0)*1000, o.heat) : {gov:0,governsHeat:false};
+  const hvacVA=s1.gov+s2.gov;
   const garageVA=o.vaEV||0;
   const homeVA=generalDemand+hvacVA+garageVA;
-  return {unit,lighting,smallApp,dishDisp,micro,washer,wh,dry,cook,generalPool,generalDemand,coolVA,heatVA,hvacVA,garageVA,homeVA,homeAmps:Math.ceil(homeVA/240)};
+  return {unit,lighting,smallApp,dishDisp,micro,washer,wh,dry,cook,generalPool,generalDemand,hvacVA,hvac1:s1.gov,hvac2:s2.gov,governsHeat:s1.governsHeat,garageVA,homeVA,homeAmps:Math.ceil(homeVA/240)};
 }
 function svcClass(d,t){ if(d<=t)return t+"A"; if(d<=400)return "400A class"; if(d<=600)return "600A class"; return "800A class"; }
 
@@ -3588,16 +3643,30 @@ function readOpts(){
   const o={ heat: val('heat'), stripKw:num('stripkw',0),
     vaCook:Math.max(0,num('vacook',0)), vaDry:Math.max(0,num('vady',0)), vaWH:Math.max(0,num('vawh',0)),
     vaAC:Math.max(0,num('vaac',0)), vaAH:Math.max(0,num('vaah',0)), vaEV:Math.max(0,num('vaev',0)),
+    hvac2:chk('hvac2'), vaAC2:Math.max(0,num('vaac2',0)), vaAH2:Math.max(0,num('vaah2',0)), strip2Kw:num('strip2kw',0),
     acReserve:chk('acreserve'), ss:val('ss'),
     bsmt:chk('bsmt'), bsmtSf:Math.max(0,Math.round(num('bsmtsf',0))) };
   o.options=CATALOG.map(c=>({key:c.key,label:c.label,role:c.role,pri:c.pri,why:c.why,
     mode:(val('m_'+c.key)||'off'), va:Math.max(0,num('v_'+c.key,c.va))})).filter(x=>x.mode!=='off');
   return o;
 }
+/* relabel and show/hide the HVAC fields to match the chosen system */
+function hvacUI(o){
+  const isGas=o.heat==='gas', isHp=o.heat==='hp';
+  const setTxt=(id,t)=>{ const e=g(id); if(e) e.textContent=t; };
+  setTxt('lbl_ac', isHp?'Heat-pump compressor VA':'A/C condenser VA');
+  setTxt('lbl_ac2', isHp?'2nd compressor VA':'2nd A/C condenser VA');
+  const fs=g('fld_strip'); if(fs) fs.style.display=isGas?'none':'';
+  setTxt('lbl_strip', isHp?'Backup / aux strips (kW)':'Electric furnace (kW)');
+  const fs2=g('fld_strip2'); if(fs2) fs2.style.display=(isGas||!o.hvac2)?'none':'';
+  setTxt('lbl_strip2', isHp?'2nd backup strips (kW)':'2nd furnace (kW)');
+  const h2=g('fld_hvac2'); if(h2) h2.style.display=o.hvac2?'':'none';
+}
 function updateAmps(o){
   const set=(id,va)=>{ const e=g(id); if(e) e.textContent=va>0?(amps(va)+"A"):""; };
   set('am_cook',o.vaCook); set('am_dry',o.vaDry); set('am_wh',o.vaWH);
   set('am_ac',o.vaAC); set('am_ah',o.vaAH); set('am_ev',o.vaEV);
+  set('am_ac2',o.hvac2?o.vaAC2:0); set('am_ah2',o.hvac2?o.vaAH2:0);
   CATALOG.forEach(c=>{ const m=val('m_'+c.key)||'off'; set('a_'+c.key, m==='off'?0:Math.max(0,num('v_'+c.key,c.va))); });
 }
 
@@ -3609,14 +3678,14 @@ function trainingHTML(){
    +'<section><div class="eyebrow">What this is</div><h2 class="s-title">Turn a short plan set into a design review a builder understands.</h2>'
    +'<p class="tpara">You enter a few things about the home and the options a buyer can add. The tool runs the same NEC optional method an engineer would, then shows how SPAN Energy Intelligence keeps the home on its planned service instead of forcing a larger one. You do not need to be an electrician. The two-pole loads are already set to standard values, and you only change them to match a specific plan.</p></section>'
    +'<section><div class="eyebrow">Build a review</div><h2 class="s-title">Five steps</h2>'
-   +step('1','Project','Builder or community, plan name, square footage, state, utility, and the service the plan is drawn to. The state sets the NEC edition, or pick it by hand for a jurisdiction that adopted early.')
-   +step('2','Base home, the two-pole loads','Range, dryer, water heater, A/C, air handler, and the garage EV outlet come pre-filled to standard values. Change a value only to match the plan load calc, or set it to 0 for gas or none. The amps update as you type.')
-   +step('3','Options and adders','For each option a buyer can buy, choose Off, Adder, or For future. Adder stacks on the With Options number now. For future shows it can be added later with no service upgrade. Set the VA to match the option sheet.')
-   +step('4','Larger build','Turn on a finished basement to add its square footage to the larger build, and set solar and storage readiness.')
-   +step('5','Single line','Open the SLD creator or attach an image. The single line page appears in the PDF only when you add one.')
+   +step('1','Project','Builder or community, plan name, square footage, state, and utility. The state sets the NEC edition, or pick it by hand for a jurisdiction that adopted early. Set "service as designed today" to what the builder specs now, often 320A or 400A, so the review shows that next to the 200A SPAN supports. There is no market or region field; the state and the builder name carry the location.')
+   +step('2','Base home, the two-pole loads','Range, dryer, water heater, and the garage EV outlet come pre-filled to standard values. The Appliances control flips the range, dryer, and water heater to all electric or gas in one click. Change any value to match the plan load calc, or set it to 0 for none. The amps update as you type.')
+   +step('3','Heating and cooling','Pick the system and the right field appears. Gas furnace shows only the condenser and air handler, since heat is gas. A heat pump shows the compressor plus backup strips, which run together in heating, so the number is higher. An electric furnace shows a furnace kW field. The tool counts the larger of heating or cooling, since they do not run at once. Turn on a second HVAC system for larger plans that run two condensers.')
+   +step('4','Options and adders','For each option a buyer can buy, choose Off, Adder, or For future. Adder stacks on the With Options number now. For future shows it can be added later with no service upgrade. Set the VA to match the option sheet. Turn on a finished basement to add its square footage to the larger build, and set solar and storage readiness.')
+   +step('5','Single line and output','Open the SLD creator or attach an image; the single line page appears in the PDF only when you add one. The Builder and Project toggle at the top left names the review for a homebuilder or, for the B2B team, a project. Then View or Download the PDF.')
    +'</section>'
    +'<section><div class="eyebrow">How the number is figured</div><h2 class="s-title">The math is baked in.</h2>'
-   +'<p class="tpara">General 120V loads, the lighting, small-appliance, dishwasher, microwave, and washer circuits, follow the NEC optional method automatically, first 10 kVA at 100 percent and the rest at 40 percent. HVAC is counted at 100 percent. The options are added at nameplate, the conservative way the plan sheets show them. You never do the arithmetic. The setpoint percent is the level SPAN holds the service to.</p></section>'
+   +'<p class="tpara">General 120V loads, the lighting, small-appliance, dishwasher, microwave, and washer circuits, follow the NEC optional method automatically, first 10 kVA at 100 percent and the rest at 40 percent. HVAC is counted at 100 percent, taking the larger of heating or cooling per NEC 220.60, and a heat pump adds its backup because the two run together. A second HVAC system adds on top. The options are added at nameplate, the conservative way the plan sheets show them. You never do the arithmetic. The setpoint percent is the level SPAN holds the service to.</p></section>'
    +'<section><div class="eyebrow">What SPAN manages</div><h2 class="s-title">And what it never touches.</h2>'
    +'<p class="tpara"><b>Managed first:</b> loads that cycle or store energy on their own and that no one operates by hand, the EV and RV circuits, the pool or spa, and the water heater. <b>Managed last:</b> A/C and heat, in short holds only, because a thermostat sits between the homeowner and the equipment. <b>Never managed:</b> the range, oven, and dryer, which a person runs on demand, and the lighting and general receptacles, which are essential and always on. If a builder asks, that line is about safety and everyday use, not about saving a few amps.</p></section>'
    +'<section><div class="eyebrow">Reading it with a builder</div><h2 class="s-title">The story on each page</h2>'
@@ -3637,10 +3706,13 @@ function render(){
   const sqft=Math.max(0,Math.round(num('sqft',2172)));
   const calcSqft=Math.max(0,Math.round(num('calcsf',sqft)));
   const target=Math.round(num('target',200)), pct=Math.max(1,Math.round(num('pct',80))), setpt=Math.round(target*pct/100);
-  const builder=val('builder')||"Builder, Community", market=val('market')||(st+" market"), utility=val('utility')||"to verify", prepby=val('prepby')||"", planName=val('pname')||"Plan";
+  const builder=val('builder')||"Builder, Community", utility=val('utility')||"to verify", prepby=val('prepby')||"", planName=val('pname')||"Plan";
+  const asDesigned=val('asdesigned')||'auto';
+  const COVDATE=new Date().toLocaleDateString('en-US',{month:'long',year:'numeric'});
   const o=readOpts();
-  updateAmps(o);
+  updateAmps(o); hvacUI(o);
   if(viewMode==='info'){ g('out').innerHTML=trainingHTML(); return; }
+  const asDesignedA=(asDesigned!=='auto')?parseInt(asDesigned,10):null;
 
   const home=computeHome(calcSqft,o);                          // without options (base)
   const beforeDrawn=home.homeAmps;
@@ -3681,12 +3753,17 @@ function render(){
      +'<div class="cap-row"><span><b style="color:var(--green-d)">'+c.pctFloor+'%</b> used, <b>'+c.headroom+'%</b> headroom for future loads</span><span>Setpoint '+set+'%</span></div>'
      +(showAsDrawn?'<div class="cap-row dim"><span>As drawn the home is '+c.before+'A, '+c.pctBefore+'% of the '+target+'A service</span><span>Fits '+target+'A</span></div>':'')
      +'</div>'; };
-  const needBar=before=>{ const over=Math.max(0,before-target), cls=svcClass(before,target);
-    const maxA=(before<=target?target:before<=400?400:before<=600?600:800);
+  const needBar=before=>{
+    if(before<=target){ const gp=Math.round(before/target*100);
+      return '<div class="cap"><div class="caplab"><span class="caplab-g">Without SPAN</span><span class="caplab-n"><b style="color:var(--green-d)">'+before+'A</b>, fits the '+target+'A service</span></div>'
+       +'<div class="need-bar"><div class="need-ok" style="width:'+gp+'%"></div><div class="need-line" style="left:100%"></div></div>'
+       +'<div class="cap-row dim"><span>Draws <b style="color:var(--green-d)">'+before+'A</b> of the '+target+'A planned service, '+(target-before)+'A to spare</span><span>'+target+'A line</span></div></div>'; }
+    const over=before-target, cls=(asDesignedA&&asDesignedA>target)?(asDesignedA+'A'):svcClass(before,target);
+    const maxA=(before<=400?400:before<=600?600:800);
     const gp=Math.round(target/maxA*100), rp=Math.max(0,Math.round(before/maxA*100)-gp);
     return '<div class="cap"><div class="caplab"><span class="caplab-r">Without SPAN</span><span class="caplab-n"><b style="color:var(--red)">'+before+'A</b>, '+over+'A over '+target+'A</span></div>'
      +'<div class="need-bar"><div class="need-ok" style="width:'+gp+'%"></div><div class="need-x" style="left:'+gp+'%;width:'+rp+'%"></div><div class="need-line" style="left:'+gp+'%"></div></div>'
-     +'<div class="cap-row dim"><span>Default outcome: a <b style="color:var(--red)">'+cls+'</b> service, a CT cabinet, larger conductors, a utility review</span><span>'+target+'A line</span></div></div>'; };
+     +'<div class="cap-row dim"><span>'+(asDesignedA&&asDesignedA>target?'Designed to a <b style="color:var(--red)">'+asDesignedA+'A</b> service today':'Default outcome: a <b style="color:var(--red)">'+cls+'</b> service')+', a CT cabinet, larger conductors, a utility review</span><span>'+target+'A line</span></div></div>'; };
 
   const candCard=c=>'<div class="cand'+(c.role==='climate'?' climate':'')+'"><div class="cand-h"><span class="cand-ic">'+iconSvg(c.label)+'</span><span class="cand-n">'+c.label+'</span><span class="cand-a">'+A(amps(c.va))+'</span></div>'
     +'<div class="cand-m"><span class="pill">Shed '+c.pri+'</span><span class="pill ok">Impact '+(c.pri==='Med'||c.pri==='Low'?'Low':'Min')+'</span></div>'
@@ -3729,9 +3806,16 @@ function render(){
   const futChips = future.map(d=>d.label.replace(/ \(.*/,'')+' · '+A(amps(d.va)));
   const futTotalAmps = futureAmps;
   const futClass = svcClass(beforeOptions+futureAmps, target);
+  const futCommitted=Math.round(capWith.floor);
+  const futHeadroom=Math.max(0,target-futCommitted);
+  const futFloorPct=Math.min(100,Math.round(futCommitted/target*100));
+  const futFill=Math.max(0,Math.min(100-futFloorPct,Math.round(futTotalAmps/target*100)));
   const futureSection = future.length ? ('<section><div class="eyebrow">Future ready</div><h2 class="s-title">What can be added later, with no service upgrade</h2>'
-    +'<p class="sintro">These are not in today\'s number. With SPAN Energy Intelligence they can be added after move-in and the home stays on '+A(target)+'.</p>'
-    +'<div class="futgrid">'+future.map(d=>'<div class="futchip"><span class="futn">'+d.label.replace(/ \(.*/,'')+'</span><span class="futa">'+A(amps(d.va))+'</span></div>').join("")+'</div>'
+    +'<p class="sintro">These are not in today\'s number. With SPAN Energy Intelligence they can be added after move-in and the home stays on '+A(target)+'. No panel swap, no second trip to the utility.</p>'
+    +'<div class="futgrid">'+future.map(d=>'<div class="futcard"><div class="futcard-h"><span class="futcard-ic">'+iconSvg(d.label)+'</span><span class="futcard-n">'+d.label.replace(/ \(.*/,'')+'</span><span class="futcard-a">'+A(amps(d.va))+'</span></div><div class="futcard-w">'+(d.why||'Added later as a managed load, absorbed in the home\'s existing headroom.')+'</div></div>').join("")+'</div>'
+    +'<div class="futbar-wrap"><div class="futbar-lab"><span>Headroom on the '+A(target)+' service</span><span>'+futTotalAmps+'A of future load fits in '+futHeadroom+'A of headroom</span></div>'
+    +'<div class="futbar"><div class="futbar-used" style="width:'+futFloorPct+'%"></div><div class="futbar-new" style="left:'+futFloorPct+'%;width:'+futFill+'%"></div></div>'
+    +'<div class="futbar-key"><span><i class="k-used"></i> Committed load today, about '+futCommitted+'A</span><span><i class="k-new"></i> Future loads, take turns in the headroom</span></div></div>'
     +'<div class="futnote"><b>With SPAN:</b> the flexible loads take turns, so about '+futTotalAmps+'A of future load is absorbed in the existing headroom, no panel change and no service upgrade. <b>Without SPAN:</b> adding these raises the calc to about '+A(beforeOptions+futureAmps)+', a '+futClass+' service. Subject to AHJ approval and utility acceptance.</div></section>') : '';
 
   const over=beforeOptions>target;
@@ -3742,16 +3826,34 @@ function render(){
 
   g('out').innerHTML =
    '<div class="doc">'
+   +'<div class="coverpage">'
    +'<div class="cvmast"><div class="splogo">'+SPANMARK+'<span class="ei">Energy Intelligence</span></div><div class="msub">'+reviewName()+'</div></div>'
-   +'<div class="cover"><div class="cvrule"></div><h1 class="cov-h">'+builder+'</h1>'
-   +'<div class="cov-meta">'+planName+' · '+sqft.toLocaleString()+' sqft · '+A(target)+' service · '+st+'</div>'
-   +'<div class="cov-by">'+(prepby?("Prepared by "+prepby+" · "):"")+'NEC '+EDITION+(mandate?(" · "+mandate):"")+' · 2026</div>'
-   +'<div class="exbadge">Example design review · preliminary · not the engineer of record</div></div>'
+   +'<div class="cover">'
+   +'<div class="cover-left"><div class="cov-eye">'+reviewName()+'</div><div class="cvrule"></div>'
+   +'<h1 class="cov-h">'+builder+'</h1>'
+   +'<div class="cov-sub">'+planName+'</div>'
+   +'<div class="cov-meta">'+sqft.toLocaleString()+' sq ft  ·  target '+A(target)+' service  ·  '+st+'</div>'
+   +'<div class="cov-lede">A preliminary look at the electrical service this home needs, and how SPAN Energy Intelligence keeps it on the planned service as options are added.</div>'
+   +'<div class="exbadge">Example · preliminary · not the engineer of record</div></div>'
+   +'<div class="cover-right"><div class="titleblock"><div class="tb-h">Project</div>'
+   +'<div class="tb-row"><span>Builder / community</span><b>'+builder+'</b></div>'
+   +'<div class="tb-row"><span>Plan</span><b>'+planName+'</b></div>'
+   +'<div class="tb-row"><span>Conditioned area</span><b>'+calcSqftL.toLocaleString()+' sq ft</b></div>'
+   +'<div class="tb-row"><span>Target service</span><b>'+A(target)+'</b></div>'
+   +'<div class="tb-row"><span>Service as designed today</span><b>'+(asDesignedA?A(asDesignedA):svcClass(beforeOptions,target))+'</b></div>'
+   +'<div class="tb-row"><span>Code basis</span><b>'+st+' · NEC '+EDITION+'</b></div>'
+   +'<div class="tb-row"><span>Utility</span><b>'+utility+'</b></div>'
+   +'<div class="tb-row"><span>Prepared by</span><b>'+(prepby||'SPAN Energy Intelligence')+'</b></div>'
+   +'<div class="tb-row"><span>Date</span><b>'+COVDATE+'</b></div></div></div>'
+   +'</div>'
+   +'<div class="coverfoot"><span>SPAN Energy Intelligence℠ · '+reviewName()+'</span><span>Preliminary · subject to AHJ approval and utility acceptance</span></div>'
+   +'</div>'
 
    +'<section><div class="eyebrow">Bottom line</div><h2 class="s-title">Every option a buyer adds points to a larger service. On this home it does not have to.</h2>'
    +'<div class="bottom"><div class="bl-nums">'
    +'<div class="bl-one"><div class="bl-big" style="color:'+(beforeOptions>target?red:green)+'">'+A(beforeOptions)+'</div><div class="bl-cap"><b>'+(adders.length?'What the options calculate to':'Calculated demand as drawn')+'</b><br><span class="dim">'+calcCap+'</span></div></div>'
-   +'<div class="bl-one"><div class="bl-big" style="color:'+green+'">'+A(target)+'</div><div class="bl-cap"><b>What this home can be built on with SPAN</b> (NEC 750)'+(holds?'':' *')+'<br><span class="dim">SPAN manages about '+primaryAmps+'A of flexible load, so '+A(target)+' holds with room to spare.</span></div></div></div>'
+   +'<div class="bl-one"><div class="bl-big" style="color:'+green+'">'+A(target)+'</div><div class="bl-cap"><b>What this home can be built on with SPAN</b> (NEC 750)'+(holds?'':' *')+'<br><span class="dim">SPAN manages about '+primaryAmps+'A of flexible load, so '+A(target)+' holds with room to spare.</span></div></div>'
+   +'<div class="bl-stats"><div class="bl-st"><span>As drawn</span><b style="color:'+green+'">'+A(beforeDrawn)+'</b></div><div class="bl-st"><span>With every option</span><b style="color:'+(beforeOptions>target?red:green)+'">'+A(beforeOptions)+'</b></div><div class="bl-st prime"><span>Built on, with SPAN</span><b style="color:'+green+'">'+A(target)+'</b></div></div></div>'
    +'<div class="why"><div class="why-h">Why this matters</div>'
    +'<p>A load calculation sizes the service as if every load could run at the same moment. A home never works that way. That one assumption is what turns a sold option into a service upgrade.</p>'
    +'<p>'+whyP2+'</p>'
@@ -3764,12 +3866,12 @@ function render(){
    +'<div class="vs">'
    +'<div class="vsbox"><div class="vs-tag">Without options</div><div class="vs-name">'+planName+'</div><div class="vs-sf">'+sqft.toLocaleString()+' sqft, as drawn</div>'
    +'<div class="vs-chips">'+homeChips.map(c=>'<span>'+c+'</span>').join("")+'</div>'
-   +'<div class="vs-dem">Calc demand <b style="color:'+(beforeDrawn>target?red:green)+'">'+A(beforeDrawn)+'</b></div>'+(beforeDrawn>target?needBar(beforeDrawn):'')+capBar(capNo,beforeDrawn<=target)+'</div>'
+   +'<div class="vs-dem">Calc demand <b style="color:'+(beforeDrawn>target?red:green)+'">'+A(beforeDrawn)+'</b></div>'+needBar(beforeDrawn)+capBar(capNo,false)+'</div>'
    +'<div class="vsbox opt"><div class="vs-tag">With options'+(o.bsmt?' (larger build)':'')+'</div><div class="vs-name">'+planName+' + options</div><div class="vs-sf">'+(optChips.length?optChips.join(", "):"no options selected")+'</div>'
    +'<div class="vs-chips">'+optChips.map(c=>'<span>'+c+'</span>').join("")+'</div>'
-   +'<div class="vs-dem">Calc demand <b style="color:'+(beforeOptions>target?red:green)+'">'+A(beforeOptions)+'</b></div>'+(beforeOptions>target?needBar(beforeOptions):'')+capBar(capWith,beforeOptions<=target)+'</div>'
+   +'<div class="vs-dem">Calc demand <b style="color:'+(beforeOptions>target?red:green)+'">'+A(beforeOptions)+'</b></div>'+needBar(beforeOptions)+capBar(capWith,false)+'</div>'
    +'</div>'
-   +'<div class="basis2"><div><span>Utility and market</span><b>'+utility+' · '+market+'</b></div><div><span>Code basis</span><b>'+st+' · NEC '+EDITION+' · EMS under Article 750</b></div></div></section>'
+   +'<div class="basis2"><div><span>Utility and code basis</span><b>'+utility+' · '+st+' · NEC '+EDITION+'</b></div><div><span>Service as designed today</span><b>'+(asDesignedA?A(asDesignedA):'Derived from the calc: '+svcClass(beforeOptions,target))+'</b></div></div></section>'
 
    +'<section><div class="eyebrow">Service size strategy and builder outcome</div><h2 class="s-title">Same house. SPAN may support a different service strategy.</h2>'
    +'<div class="strat-head"><div></div><div class="sh red">Without SPAN</div><div class="sh green">With SPAN Energy Intelligence</div></div>'
@@ -3777,7 +3879,7 @@ function render(){
      +'<div class="s-box '+(beforeDrawn>target?'red':'green')+'"><div class="s-big">'+(beforeDrawn>target?svcClass(beforeDrawn,target):A(target))+'</div><div class="s-lab">'+(beforeDrawn>target?'Existing design strategy':'Fits '+A(target))+'</div></div>'
      +'<div class="s-box green"><div class="s-big">'+A(target)+'</div><div class="s-lab">SPAN may support staying at '+A(target)+' *</div></div></div>'
    +'<div class="srow"><div class="s-plan"><div class="s-role">With options</div><div class="s-name">'+planName+' + options</div><div class="s-sf">'+optPhrase+'</div></div>'
-     +'<div class="s-box red"><div class="s-big">'+svcClass(beforeOptions,target)+'</div><div class="s-lab">Over '+A(target)+'. Default: '+svcClass(beforeOptions,target)+' service</div></div>'
+     +'<div class="s-box red"><div class="s-big">'+((asDesignedA&&asDesignedA>target)?A(asDesignedA):svcClass(beforeOptions,target))+'</div><div class="s-lab">'+((asDesignedA&&asDesignedA>target)?'Designed to '+A(asDesignedA)+' today':'Over '+A(target)+'. Default: '+svcClass(beforeOptions,target)+' service')+'</div></div>'
      +'<div class="s-box green"><div class="s-big">'+A(target)+'</div><div class="s-lab">SPAN may support staying at '+A(target)+' *</div></div></div>'
    +'<div class="outcomes">'
      +'<div class="oc"><b>Avoids a larger service</b><span>'+A(target)+' instead of a '+svcClass(beforeOptions,target)+' service across the options.</span></div>'
@@ -3810,18 +3912,14 @@ function render(){
    +'<div class="sldnote"><b>'+setpt+'A EMS setpoint · meter main '+A(target)+' · SPAN panel bus bar 225A.</b> SPAN comms require Cat5e or greater from the router location to SPAN, and to the EV locations. Circuit assignments illustrative.</div>'
    +sldSection+'</section>'
 
-   +'<section><div class="eyebrow">Example · load calc with SPAN</div><p class="sintro">A SPAN Energy Intelligence design review example across a plan series. Marked Example, for illustration only, so it is never used as a project calculation.</p>'
-   +'<figure class="exfig"><img src="'+EXAMPLE_CALC+'" alt="Example load calc with SPAN Energy Intelligence"></figure></section>'
-
-   +'<section><div class="eyebrow">Load calc basis and assumptions</div><p class="sintro">Home as drawn on the optional method, plus the selected options at nameplate. Two-pole loads are editable to match the plan set. Preliminary.</p>'
+   +'<section class="calcpage"><div class="eyebrow">Load calc basis and assumptions</div><p class="sintro">Home as drawn on the optional method, plus the selected options at nameplate. Two-pole loads are editable to match the plan set. Preliminary.</p>'
    +'<div class="tw exwrap"><div class="exwm">EXAMPLE</div><table class="basis"><thead><tr><th>Item (VA unless noted)</th><th>VA</th><th>Amps</th></tr></thead><tbody>'+basisBody
    +homeRow+optRowsB
    +'<tr class="tot2"><td class="l">Total with all options</td><td>'+(beforeOptions*240).toLocaleString()+'</td><td><b>'+A(beforeOptions)+'</b></td></tr>'
    +'<tr class="span"><td class="l">With SPAN: '+setpt+'A setpoint, '+A(target)+' service</td><td></td><td><b>shed '+shed+'A</b></td></tr>'
    +'</tbody></table></div>'
-   +'<div class="assume"><div class="assume-h">Assumptions to verify</div><ol>'+assume.map(a=>'<li>'+a+'</li>').join("")+'</ol></div></section>'
-
-   +'<div class="discl"><p>This document is provided by SPAN Energy Intelligence℠ for preliminary design review, planning, and discussion purposes only. It is not a final electrical design, stamped engineering document, permit document, or substitute for a project-specific electrical load calculation.</p></div>'
+   +'<div class="assume"><div class="assume-h">Assumptions to verify</div><ol>'+assume.map(a=>'<li>'+a+'</li>').join("")+'</ol></div>'
+   +'<div class="discl"><p>This document is provided by SPAN Energy Intelligence℠ for preliminary design review, planning, and discussion purposes only. It is not a final electrical design, stamped engineering document, permit document, or substitute for a project-specific electrical load calculation.</p></div></section>'
    +'<div class="foot"><span>SPAN Energy Intelligence℠ · '+reviewName()+'</span><span>'+builder+' · '+planName+' · 2026</span></div>'
    +'</div>';
 }
@@ -3832,8 +3930,12 @@ function sldStatus(){ const s=g('sldstatus'), c=g('sldclear'); if(!s) return;
   const fi=g('sldfile'); if(fi) fi.addEventListener('change',e=>{ const f=e.target.files&&e.target.files[0]; if(!f)return; const rd=new FileReader(); rd.onload=()=>{SLD=rd.result; sldStatus(); render();}; rd.readAsDataURL(f); });
   const c=g('sldclear'); if(c) c.addEventListener('click',()=>{ SLD=null; if(fi) fi.value=""; sldStatus(); render(); });
 })();
+function applyPreset(id){
+  if(id==='energy'){ const v=val('energy'); if(v==='elec'){ g('vacook').value=12000; g('vady').value=5000; g('vawh').value=4500; } else if(v==='gas'){ g('vacook').value=0; g('vady').value=0; g('vawh').value=0; } }
+  if(id==='heat'){ const h=val('heat'); if(h==='hp'&&num('stripkw',0)===0) g('stripkw').value=10; else if(h==='elec'&&num('stripkw',0)===0) g('stripkw').value=15; }
+}
 document.addEventListener('input',e=>{ if(e.target.closest('.rail')) render(); });
-document.addEventListener('change',e=>{ if(e.target.closest('.rail')) render(); });
+document.addEventListener('change',e=>{ if(e.target.closest('.rail')){ if(e.target.id) applyPreset(e.target.id); render(); } });
 
 /* capture the clean-slate defaults, then wire Clear */
 let DEFAULTS={};
