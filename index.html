@@ -208,6 +208,7 @@ table.basis tr.span td{background:var(--greenwash);font-weight:700;color:#0a7a45
 .discl{padding:16px 44px;border-top:1px solid var(--dline)}.discl p{margin:0;font-size:10.5px;color:var(--dmut);line-height:1.5}
 .foot{display:flex;justify-content:space-between;gap:16px;padding:14px 44px;background:var(--ink);color:#cfd2cf;font-size:10px}
 .foot span:first-child{color:#fff;font-weight:600}
+.pgfoot{display:none}
 @media print{
   @page{ size:letter landscape; margin:0 }
   html,body{background:#fff}
@@ -217,17 +218,25 @@ table.basis tr.span td{background:var(--greenwash);font-weight:700;color:#0a7a45
   .doc{max-width:none;width:100%;box-shadow:none;border-radius:0}
   /* one section per page, content centered so each page reads full */
   .coverpage{min-height:8.5in;break-after:page;page-break-after:always;display:flex;flex-direction:column}
-  .doc>section{break-before:page;page-break-before:always;break-inside:avoid;min-height:8.5in;display:flex;flex-direction:column;justify-content:center;padding:0.5in 0.7in}
+  .coverpage,.doc>section{position:relative}
+  .doc>section{break-before:page;page-break-before:always;break-inside:avoid;min-height:8.5in;display:flex;flex-direction:column;justify-content:center;padding:0.55in 0.7in}
   .discl{margin-top:10px;padding:9px 0 0;border-top:1px solid var(--dline)}
   .foot{display:none}
   .vsbox,.srow,.cand,.ctrlcol,.exfig,.sldfig,.why,.neverbox,.assume{break-inside:avoid}
   /* compact the load calc page so table, assumptions and disclaimer share one page */
   table.basis{font-size:11px}
-  table.basis td,table.basis th{padding:3px 8px}
-  .assume{margin-top:10px;padding:10px 14px}
+  table.basis td,table.basis th{padding:2.5px 8px}
+  .assume{margin-top:9px;padding:9px 14px}
   .assume ol{column-count:2;column-gap:30px}
-  .assume li{break-inside:avoid;margin-bottom:3px}
-  .doc>section.calcpage{justify-content:flex-start;padding:0.4in 0.7in}
+  .assume li{break-inside:avoid;margin-bottom:2px}
+  .doc>section.calcpage{justify-content:flex-start;padding:0.38in 0.7in 0.55in}
+  /* single line diagram on its own page, scaled to fit one page */
+  .doc>section.sldpage{justify-content:center;padding:0.45in 0.7in 0.55in}
+  .sldpage .sldfig{margin:14px auto 0;max-width:100%;display:flex;flex-direction:column;align-items:center}
+  .sldpage .sldfig img{max-height:5.9in;width:auto;max-width:100%;object-fit:contain;margin:0 auto}
+  /* running footer with branding and page number on every content page */
+  .pgfoot{display:flex;justify-content:space-between;align-items:baseline;position:absolute;left:0.7in;right:0.7in;bottom:0.28in;font-size:9px;color:var(--dmut);border-top:1px solid var(--dline);padding-top:5px}
+  .pgfoot span:first-child{font-weight:600;color:#3a463f}
 }
 /* force brand colors to print on screen-to-PDF too */
 .cvmast,.coverfoot,.foot,.tb-h,.s-plan,.pc-top,.exwm,.cap-floor,.cap-mgd,.need-x,.ac-fill{-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -238,8 +247,7 @@ table.basis tr.span td{background:var(--greenwash);font-weight:700;color:#0a7a45
     <div class="ptag">Design Review tool</div>
     <div class="grp"><h4>Project</h4>
       <div class="fld"><label>Builder / community</label><input id="builder" placeholder="Builder / community"></div>
-      <div class="row2"><div class="fld"><label>Plan name</label><input id="pname" placeholder="Plan name"></div><div class="fld"><label>Livable sq ft</label><input id="sqft" type="number" value="2000"></div></div>
-      <div class="row2"><div class="fld"><label>Calc area sq ft</label><input id="calcsf" type="number" placeholder="= livable"></div><div class="fld"><label>Bedrooms</label><input id="beds" type="number" placeholder="3"></div></div>
+      <div class="row2"><div class="fld"><label>Plan name</label><input id="pname" placeholder="Plan name"></div><div class="fld"><label>Conditioned living area (sq ft)</label><input id="sqft" type="number" value="2000"></div></div>
       <div class="row2"><div class="fld"><label>State (drives code)</label><select id="state"></select></div><div class="fld"><label>NEC edition</label><select id="nec"><option value="auto" selected>Auto, from state</option><option value="2020">NEC 2020</option><option value="2023">NEC 2023</option><option value="2026">NEC 2026 (early)</option></select></div></div>
       <div class="row2"><div class="fld"><label>Utility</label><input id="utility" placeholder="Utility"></div><div class="fld"><label>Prepared by</label><input id="prepby" placeholder="your name"></div></div>
       <div class="row2"><div class="fld"><label>Target service</label><select id="target"><option>200</option><option>320</option><option>400</option></select></div><div class="fld"><label>Service as designed today</label><select id="asdesigned"><option value="auto" selected>Auto, from calc</option><option value="200">200A</option><option value="320">320A</option><option value="400">400A</option><option value="600">600A</option></select></div></div>
@@ -3703,8 +3711,8 @@ function render(){
   const st=val('state')||"Arizona"; const necSel=val('nec')||"auto"; const autoEd=editionForState(st); EDITION=chosenEdition(st);
   const edL=g('edlabel'); if(edL) edL.textContent="NEC "+EDITION+(necSel!=='auto'?(EDITION!==autoEd?" · early adoption":" · manual"):(/\(|amend/i.test((STATES[st]||{}).nec||"")?" (state amended)":""));
   const t24=isTitle24(st), mandate=stateMandate(st);
-  const sqft=Math.max(0,Math.round(num('sqft',2172)));
-  const calcSqft=Math.max(0,Math.round(num('calcsf',sqft)));
+  const sqft=Math.max(0,Math.round(num('sqft',2000)));
+  const calcSqft=sqft;   // one area number drives the whole review: the conditioned living area is the NEC calc basis
   const target=Math.round(num('target',200)), pct=Math.max(1,Math.round(num('pct',80))), setpt=Math.round(target*pct/100);
   const builder=val('builder')||"Builder, Community", utility=val('utility')||"to verify", prepby=val('prepby')||"", planName=val('pname')||"Plan";
   const asDesigned=val('asdesigned')||'auto';
@@ -3800,7 +3808,7 @@ function render(){
     "Serving utility to be confirmed. Final rating subject to AHJ approval, utility acceptance, and engineering review."
   ];
 
-  const sldSection = SLD ? '<figure class="sldfig"><img src="'+SLD+'" alt="Single line diagram"><figcaption>Single line diagram as provided. Circuit assignments illustrative.</figcaption></figure>' : '';
+  const sldSection = SLD ? '<section class="sldpage"><div class="eyebrow">Single line diagram</div><p class="sintro">As provided for this plan. Circuit assignments illustrative, subject to AHJ approval and utility acceptance.</p><figure class="sldfig"><img src="'+SLD+'" alt="Single line diagram"></figure></section>' : '';
   const personList = ["Range and oven","Clothes dryer"].concat(adders.filter(d=>d.role==='never').map(d=>d.label.replace(/ \(.*/,'')));
   const essentialList = ["Lighting","General receptacle loads"];
   const futChips = future.map(d=>d.label.replace(/ \(.*/,'')+' · '+A(amps(d.va)));
@@ -3838,7 +3846,7 @@ function render(){
    +'<div class="cover-right"><div class="titleblock"><div class="tb-h">Project</div>'
    +'<div class="tb-row"><span>Builder / community</span><b>'+builder+'</b></div>'
    +'<div class="tb-row"><span>Plan</span><b>'+planName+'</b></div>'
-   +'<div class="tb-row"><span>Conditioned area</span><b>'+calcSqftL.toLocaleString()+' sq ft</b></div>'
+   +'<div class="tb-row"><span>Conditioned area</span><b>'+calcSqft.toLocaleString()+' sq ft'+(o.bsmt?' + '+o.bsmtSf.toLocaleString()+' sq ft basement':'')+'</b></div>'
    +'<div class="tb-row"><span>Target service</span><b>'+A(target)+'</b></div>'
    +'<div class="tb-row"><span>Service as designed today</span><b>'+(asDesignedA?A(asDesignedA):svcClass(beforeOptions,target))+'</b></div>'
    +'<div class="tb-row"><span>Code basis</span><b>'+st+' · NEC '+EDITION+'</b></div>'
@@ -3910,7 +3918,7 @@ function render(){
      +adders.filter(d=>d.role==='never').map(d=>'<div class="ctrl-row"><span>'+d.label.replace(/ \(.*/,'')+'</span><b>'+A(amps(d.va))+'</b></div>').join("")
      +'<div class="ctrl-row"><span>General and lighting</span><b>—</b></div></div></div>'
    +'<div class="sldnote"><b>'+setpt+'A EMS setpoint · meter main '+A(target)+' · SPAN panel bus bar 225A.</b> SPAN comms require Cat5e or greater from the router location to SPAN, and to the EV locations. Circuit assignments illustrative.</div>'
-   +sldSection+'</section>'
+   +'</section>'+sldSection
 
    +'<section class="calcpage"><div class="eyebrow">Load calc basis and assumptions</div><p class="sintro">Home as drawn on the optional method, plus the selected options at nameplate. Two-pole loads are editable to match the plan set. Preliminary.</p>'
    +'<div class="tw exwrap"><div class="exwm">EXAMPLE</div><table class="basis"><thead><tr><th>Item (VA unless noted)</th><th>VA</th><th>Amps</th></tr></thead><tbody>'+basisBody
@@ -3922,7 +3930,13 @@ function render(){
    +'<div class="discl"><p>This document is provided by SPAN Energy Intelligence℠ for preliminary design review, planning, and discussion purposes only. It is not a final electrical design, stamped engineering document, permit document, or substitute for a project-specific electrical load calculation.</p></div></section>'
    +'<div class="foot"><span>SPAN Energy Intelligence℠ · '+reviewName()+'</span><span>'+builder+' · '+planName+' · 2026</span></div>'
    +'</div>';
+  stampPages();
 }
+function stampPages(){ const out=g('out'); if(!out) return;
+  const secs=out.querySelectorAll('.doc > section'); const total=secs.length+1;
+  secs.forEach((s,i)=>{ const f=document.createElement('div'); f.className='pgfoot';
+    f.innerHTML='<span>SPAN Energy Intelligence&#8480; &middot; '+reviewName()+'</span><span>Page '+(i+2)+' of '+total+'</span>';
+    s.appendChild(f); }); }
 function sldStatus(){ const s=g('sldstatus'), c=g('sldclear'); if(!s) return;
   if(SLD){ s.textContent="Diagram attached. It appears on the single line page of the PDF."; s.classList.add('on'); if(c) c.hidden=false; }
   else{ s.textContent="Optional. The single line page shows the controlled vs not controlled lists either way, and your diagram image appears only when added."; s.classList.remove('on'); if(c) c.hidden=true; } }
