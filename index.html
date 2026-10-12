@@ -150,6 +150,7 @@ section{padding:22px 44px;border-top:1px solid var(--dline)}
 .cap-set{position:absolute;top:-2px;bottom:-2px;border-left:2px dashed var(--ink)}
 .cap-row{display:flex;justify-content:space-between;gap:12px;font-size:11px;margin-top:6px}.cap-row.dim{color:var(--dmut);margin-top:3px}.cap-row span:last-child{white-space:nowrap;flex:none}
 .vs{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:stretch}@media(max-width:720px){.vs{grid-template-columns:1fr}}
+.vs.solo{grid-template-columns:minmax(0,640px);justify-content:center}
 .vsbox{border:1px solid var(--dline);border-radius:10px;padding:18px 20px;display:flex;flex-direction:column}
 .vsbox.opt{border-color:#f3c7d4;background:#fef5f8}
 .vs-tag{font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:var(--dmut)}
@@ -271,6 +272,8 @@ table.basis tr.span td{background:var(--greenwash);font-weight:700;color:#0a7a45
       <div class="fld"><label>Appliances</label><select id="energy"><option value="elec" selected>All electric (range, dryer, water)</option><option value="gas">Gas (range, dryer, water)</option><option value="mixed">Mixed, set below</option></select></div>
       <div class="row2"><div class="fld"><label><span id="lbl_cook">Range / oven VA</span> <span class="amp" id="am_cook"></span></label><input id="vacook" type="number" value="12000"></div><div class="fld"><label>Dryer VA <span class="amp" id="am_dry"></span></label><input id="vady" type="number" value="5000"></div></div>
       <div class="row2"><div class="fld"><label>Water heater VA <span class="amp" id="am_wh"></span></label><input id="vawh" type="number" value="4500"></div><div class="fld"><label>Garage EV VA <span class="amp" id="am_ev"></span></label><input id="vaev" type="number" value="11000"></div></div>
+      <div class="row2"><div class="fld"><label>Kitchen SA circuits <span class="amp" id="am_kit"></span></label><input id="kitckt" type="number" value="2"></div><div class="fld"><label>Laundry circuits <span class="amp" id="am_lau"></span></label><input id="lauckt" type="number" value="1"></div></div>
+      <div class="hint">Each circuit is 1,500 VA and covers the countertop and laundry receptacles. Countertop microwaves, toasters and an on-circuit fridge are already counted here, so add only built-in microwaves and dedicated-circuit fridges or freezers under Additional home loads.</div>
       <div class="fld"><label>Heating / cooling system</label><select id="heat"><option value="gas">Gas furnace + central A/C</option><option value="hp">Heat pump + electric backup</option><option value="elec">Electric furnace + central A/C</option></select></div>
       <div class="row2"><div class="fld"><label><span id="lbl_ac">A/C condenser VA</span> <span class="amp" id="am_ac"></span></label><input id="vaac" type="number" value="8280"></div><div class="fld"><label>Air handler VA <span class="amp" id="am_ah"></span></label><input id="vaah" type="number" value="1416"></div></div>
       <div class="fld" id="fld_strip"><label><span id="lbl_strip">Backup / aux strips (kW)</span></label><input id="stripkw" type="number" value="0"></div>
@@ -284,10 +287,11 @@ table.basis tr.span td{background:var(--greenwash);font-weight:700;color:#0a7a45
       <div id="customloads"></div>
       <button type="button" id="addload" class="railadd">+ Add appliance or load</button>
       <div class="hint">Add anything the plan includes beyond the standard loads, a wall oven, cooktop, hood, fireplace, second dryer, a pool pump. Pick the appliance, set its VA, and choose Fixed, which rides the optional method, or Dedicated, which counts at full nameplate. These land in the home as drawn.</div></div>
-    <div class="grp"><h4>Buyer options and adders</h4>
+    <div class="grp"><h4 id="opthd">Buyer options and adders</h4>
+      <label class="ck" style="margin:-2px 0 8px"><input type="checkbox" id="optson" checked> This builder offers buyer options</label>
       <div class="opthead"><span>Mode</span><span>Option</span><span>VA</span></div>
       <div class="optrow"><select id="m_ev2" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">2nd EV charger (50A)</span><input id="v_ev2" class="optva" type="number" value="11000"><span class="amp am2" id="a_ev2"></span></div><div class="optrow"><select id="m_rvg" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">RV garage (RVG) subpanel</span><input id="v_rvg" class="optva" type="number" value="12000"><span class="amp am2" id="a_rvg"></span></div><div class="optrow"><select id="m_poolspa" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Pool / spa circuit</span><input id="v_poolspa" class="optva" type="number" value="9600"><span class="amp am2" id="a_poolspa"></span></div><div class="optrow"><select id="m_poolheat" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Electric pool heater</span><input id="v_poolheat" class="optva" type="number" value="11520"><span class="amp am2" id="a_poolheat"></span></div><div class="optrow"><select id="m_casita" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Casita / ADU subpanel</span><input id="v_casita" class="optva" type="number" value="9000"><span class="amp am2" id="a_casita"></span></div><div class="optrow"><select id="m_shop" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Workshop / detached garage</span><input id="v_shop" class="optva" type="number" value="7200"><span class="amp am2" id="a_shop"></span></div><div class="optrow"><select id="m_outkit" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Outdoor kitchen (240V)</span><input id="v_outkit" class="optva" type="number" value="7200"><span class="amp am2" id="a_outkit"></span></div><div class="optrow"><select id="m_snowmelt" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Snow melt / heated driveway</span><input id="v_snowmelt" class="optva" type="number" value="12000"><span class="amp am2" id="a_snowmelt"></span></div><div class="optrow"><select id="m_hpwh" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Electric / heat-pump water heater</span><input id="v_hpwh" class="optva" type="number" value="4500"><span class="amp am2" id="a_hpwh"></span></div><div class="optrow"><select id="m_wellpump" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Well or irrigation pump</span><input id="v_wellpump" class="optva" type="number" value="3600"><span class="amp am2" id="a_wellpump"></span></div><div class="optrow"><select id="m_floorheat" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Heated floors (electric)</span><input id="v_floorheat" class="optva" type="number" value="5000"><span class="amp am2" id="a_floorheat"></span></div><div class="optrow"><select id="m_ac2" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Second A/C zone</span><input id="v_ac2" class="optva" type="number" value="7000"><span class="amp am2" id="a_ac2"></span></div><div class="optrow"><select id="m_range2" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Induction range or double oven</span><input id="v_range2" class="optva" type="number" value="10000"><span class="amp am2" id="a_range2"></span></div><div class="optrow"><select id="m_sauna" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Sauna</span><input id="v_sauna" class="optva" type="number" value="7200"><span class="amp am2" id="a_sauna"></span></div><div class="optrow"><select id="m_rv" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">RV outlet (50A, 14-50)</span><input id="v_rv" class="optva" type="number" value="9600"><span class="amp am2" id="a_rv"></span></div>
-      <div class="hint"><b>Adder</b> stacks on the With Options number now. <b>For future</b> shows it can be added later with no service upgrade. Set VA to match the plan or option sheet.</div>
+      <div class="hint" id="opthint"><b>Adder</b> stacks on the With Options number now. <b>For future</b> shows it can be added later with no service upgrade. Set VA to match the plan or option sheet.</div>
       <label class="ck" style="margin-top:8px"><input type="checkbox" id="bsmt"> Finished basement (larger build)</label>
       <div class="fld sub"><label>Basement adds sq ft</label><input id="bsmtsf" type="number" value="1000"></div>
       <div class="fld" style="margin-top:6px"><label style="display:block">Solar and storage</label><select id="ss"><option value="none" selected>None</option><option value="opt">Solar optional</option><option value="ready">Solar ready</option><option value="ss_ready">Solar + storage ready</option><option value="ss_incl">Solar + storage included</option></select></div></div>
@@ -3649,9 +3653,10 @@ const ADU_LABEL={studio:"Studio ADU",br1:"1-bedroom ADU",br2:"2-bedroom ADU"};
 function computeHome(calcSqft,o){
   const unit=lightingUnitVA();                 // 3 VA/sf for 2020/2023, 2 for 2026
   const lighting=Math.round(calcSqft*unit);
-  const smallApp=4500, dishDisp=1500, micro=1200, washer=1500;   // baked-in 120V general loads
+  const kitCkt=Math.max(0,(o.kitCkt!=null?o.kitCkt:2)), lauCkt=Math.max(0,(o.lauCkt!=null?o.lauCkt:1));
+  const smallApp=kitCkt*1500, laundry=lauCkt*1500, dishDisp=1500, micro=1200;   // kitchen + laundry receptacle circuits; the laundry circuit covers the clothes washer, so it is not added again
   const wh=o.vaWH||0, dry=o.vaDry||0, cook=o.vaCook||0;
-  const generalPool=lighting+smallApp+dishDisp+micro+washer+wh+dry+cook+(o.cFixed||0);  // custom fixed appliances ride the optional method
+  const generalPool=lighting+smallApp+laundry+dishDisp+micro+wh+dry+cook+(o.cFixed||0);  // custom fixed appliances ride the optional method
   const generalDemand=Math.round(Math.min(10000,generalPool)+Math.max(0,generalPool-10000)*0.4);
   /* one HVAC system: cooling is condenser + air handler; heating adds electric heat for heat pump (compressor + strips) or electric furnace. 220.60 takes the larger, except a heat pump runs with its backup so those add. */
   const sysHVAC=(ac,ah,strip,heat)=>{ const cool=ac+ah; const heatV=(heat==='hp')?(ac+strip+ah):(heat==='elec')?(strip+ah):0; return {gov:Math.max(cool,heatV), governsHeat:heatV>cool}; };
@@ -3661,7 +3666,7 @@ function computeHome(calcSqft,o){
   const hvacVA=s1.gov+s2.gov;
   const garageVA=o.vaEV||0;
   const homeVA=generalDemand+hvacVA+garageVA+(o.cDed||0);  // custom dedicated loads count at 100% nameplate
-  return {unit,lighting,smallApp,dishDisp,micro,washer,wh,dry,cook,generalPool,generalDemand,hvacVA,hvac1:s1.gov,hvac2:s2.gov,governsHeat:s1.governsHeat,garageVA,homeVA,homeAmps:Math.ceil(homeVA/240)};
+  return {unit,lighting,smallApp,laundry,kitCkt,lauCkt,dishDisp,micro,wh,dry,cook,generalPool,generalDemand,hvacVA,hvac1:s1.gov,hvac2:s2.gov,governsHeat:s1.governsHeat,garageVA,homeVA,homeAmps:Math.ceil(homeVA/240)};
 }
 function svcClass(d,t){ if(d<=t)return t+"A"; if(d<=400)return "400A class"; if(d<=600)return "600A class"; return "800A class"; }
 
@@ -3671,6 +3676,7 @@ function readOpts(){
     vaAC:Math.max(0,num('vaac',0)), vaAH:Math.max(0,num('vaah',0)), vaEV:Math.max(0,num('vaev',0)),
     hvac2:chk('hvac2'), vaAC2:Math.max(0,num('vaac2',0)), vaAH2:Math.max(0,num('vaah2',0)), strip2Kw:num('strip2kw',0),
     acReserve:chk('acreserve'), ss:val('ss'),
+    kitCkt:Math.max(0,Math.round(num('kitckt',2))), lauCkt:Math.max(0,Math.round(num('lauckt',1))),
     bsmt:chk('bsmt'), bsmtSf:Math.max(0,Math.round(num('bsmtsf',0))) };
   o.options=CATALOG.map(c=>({key:c.key,label:c.label,role:c.role,pri:c.pri,why:c.why,
     mode:(val('m_'+c.key)||'off'), va:Math.max(0,num('v_'+c.key,c.va))})).filter(x=>x.mode!=='off');
@@ -3701,6 +3707,8 @@ function updateAmps(o){
   set('am_cook',o.vaCook); set('am_dry',o.vaDry); set('am_wh',o.vaWH);
   set('am_ac',o.vaAC); set('am_ah',o.vaAH); set('am_ev',o.vaEV);
   set('am_ac2',o.hvac2?o.vaAC2:0); set('am_ah2',o.hvac2?o.vaAH2:0);
+  const vset=(id,va)=>{ const e=g(id); if(e) e.textContent=va>0?(va.toLocaleString()+' VA'):''; };
+  vset('am_kit',(o.kitCkt||0)*1500); vset('am_lau',(o.lauCkt||0)*1500);
   CATALOG.forEach(c=>{ const m=val('m_'+c.key)||'off'; set('a_'+c.key, m==='off'?0:Math.max(0,num('v_'+c.key,c.va))); });
 }
 
@@ -3729,6 +3737,17 @@ function addCustomLoad(){ const box=g('customloads'); if(!box) return;
   row.querySelector('.cl-sel').focus(); }
 function updateCustomAmps(){ document.querySelectorAll('#customloads .clrow').forEach(r=>{ const va=Math.max(0,parseFloat((r.querySelector('.cl-va')||{}).value)||0); const a=r.querySelector('.cl-amp'); if(a) a.textContent=va>0?(amps(va)+'A'):''; }); }
 
+/* Builder-options toggle: when off, the option list becomes "may add later" (Future only), no adders */
+function applyOptsMode(){ const on=chk('optson');
+  const hd=g('opthd'), hint=g('opthint');
+  if(hd) hd.textContent = on ? 'Buyer options and adders' : 'What the homeowner may add later';
+  if(hint) hint.innerHTML = on
+    ? '<b>Adder</b> stacks on the With Options number now. <b>For future</b> shows it can be added later with no service upgrade. Set VA to match the plan or option sheet.'
+    : 'This builder does not sell options. Mark anything a homeowner could add after move-in as For future. SPAN absorbs it in the headroom with no service upgrade.';
+  CATALOG.forEach(c=>{ const sel=g('m_'+c.key); if(!sel) return;
+    const ad=[...sel.options].find(x=>x.value==='adder'); if(ad){ ad.hidden=!on; ad.disabled=!on; }
+    if(!on && sel.value==='adder') sel.value='off'; }); }
+
 function trainingHTML(){
   const step=(n,h,b)=>'<div class="stp"><div class="stp-n">'+n+'</div><div class="stp-b"><b>'+h+'</b><span>'+b+'</span></div></div>';
   return '<div class="doc">'
@@ -3738,13 +3757,13 @@ function trainingHTML(){
    +'<p class="tpara">You enter a few things about the home and the options a buyer can add. The tool runs the same NEC optional method an engineer would, then shows how SPAN Energy Intelligence keeps the home on its planned service instead of forcing a larger one. You do not need to be an electrician. The two-pole loads are already set to standard values, and you only change them to match a specific plan.</p></section>'
    +'<section><div class="eyebrow">Build a review</div><h2 class="s-title">Five steps</h2>'
    +step('1','Project','Builder or community, plan name, square footage, state, and utility. The state sets the NEC edition, or pick it by hand for a jurisdiction that adopted early. Set "service as designed today" to what the builder specs now, often 320A or 400A, so the review shows that next to the 200A SPAN supports. There is no market or region field; the state and the builder name carry the location.')
-   +step('2','Base home, the two-pole loads','Range, dryer, water heater, and the garage EV outlet come pre-filled to standard values. The Appliances control flips the range, dryer, and water heater to all electric or gas in one click. Change any value to match the plan load calc, or set it to 0 for none. The amps update as you type. Under Additional home loads you can add anything else the plan includes, a wall oven, cooktop, hood, fireplace, second dryer, a pool pump. Pick the appliance, set its VA, and choose Fixed, which rides the optional method, or Dedicated, which counts at full nameplate like the EV. These land in the home as drawn and show in the load calc basis.')
+   +step('2','Base home, the two-pole loads','Range, dryer, water heater, and the garage EV outlet come pre-filled to standard values. The Appliances control flips the range, dryer, and water heater to all electric or gas in one click. Change any value to match the plan load calc, or set it to 0 for none. The amps update as you type. Set the number of kitchen small-appliance circuits and laundry circuits to match the plan; each is 1,500 VA and covers the receptacles, so the laundry circuit already includes the clothes washer and the kitchen circuits already include countertop microwaves and an on-circuit fridge. Under Additional home loads you can add anything else the plan includes, a wall oven, cooktop, hood, fireplace, second dryer, a pool pump. Pick the appliance, set its VA, and choose Fixed, which rides the optional method, or Dedicated, which counts at full nameplate like the EV. These land in the home as drawn and show in the load calc basis.')
    +step('3','Heating and cooling','Pick the system and the right field appears. Gas furnace shows only the condenser and air handler, since heat is gas. A heat pump shows the compressor plus backup strips, which run together in heating, so the number is higher. An electric furnace shows a furnace kW field. The tool counts the larger of heating or cooling, since they do not run at once. Turn on a second HVAC system for larger plans that run two condensers.')
-   +step('4','Options and adders','For each option a buyer can buy, choose Off, Adder, or For future. Adder stacks on the With Options number now. For future shows it can be added later with no service upgrade. Set the VA to match the option sheet. Turn on a finished basement to add its square footage to the larger build, and set solar and storage readiness.')
+   +step('4','Options and adders','For each option a buyer can buy, choose Off, Adder, or For future. Adder stacks on the With Options number now. For future shows it can be added later with no service upgrade. Set the VA to match the option sheet. If a builder does not sell options, uncheck This builder offers buyer options; the review then drops the with-options comparison and leads with the home as drawn plus a future-ready page for what a homeowner can add later. Turn on a finished basement to add its square footage to the larger build, and set solar and storage readiness.')
    +step('5','Single line and output','Open the SLD creator or attach an image; the single line page appears in the PDF only when you add one. The Builder and Project toggle at the top left names the review for a homebuilder or, for the B2B team, a project. Then View or Download the PDF.')
    +'</section>'
    +'<section><div class="eyebrow">How the number is figured</div><h2 class="s-title">The math is baked in.</h2>'
-   +'<p class="tpara">General 120V loads, the lighting, small-appliance, dishwasher, microwave, and washer circuits, follow the NEC optional method automatically, first 10 kVA at 100 percent and the rest at 40 percent. HVAC is counted at 100 percent, taking the larger of heating or cooling per NEC 220.60, and a heat pump adds its backup because the two run together. A second HVAC system adds on top. The options are added at nameplate, the conservative way the plan sheets show them. You never do the arithmetic. The setpoint percent is the level SPAN holds the service to.</p></section>'
+   +'<p class="tpara">General 120V loads, the lighting, the kitchen small-appliance circuits, the laundry circuit, and the built-in dishwasher, disposal and microwave, follow the NEC optional method automatically, first 10 kVA at 100 percent and the rest at 40 percent. The laundry circuit already covers the clothes washer, so it is not counted twice. HVAC is counted at 100 percent, taking the larger of heating or cooling per NEC 220.60, and a heat pump adds its backup because the two run together. A second HVAC system adds on top. The options are added at nameplate, the conservative way the plan sheets show them. You never do the arithmetic. The setpoint percent is the level SPAN holds the service to.</p></section>'
    +'<section><div class="eyebrow">What SPAN manages</div><h2 class="s-title">And what it never touches.</h2>'
    +'<p class="tpara"><b>Managed first:</b> loads that cycle or store energy on their own and that no one operates by hand, the EV and RV circuits, the pool or spa, and the water heater. <b>Managed last:</b> A/C and heat, in short holds only, because a thermostat sits between the homeowner and the equipment. <b>Never managed:</b> the range, oven, and dryer, which a person runs on demand, and the lighting and general receptacles, which are essential and always on. If a builder asks, that line is about safety and everyday use, not about saving a few amps.</p></section>'
    +'<section><div class="eyebrow">Reading it with a builder</div><h2 class="s-title">The story on each page</h2>'
@@ -3769,7 +3788,7 @@ function render(){
   const asDesigned=val('asdesigned')||'auto';
   const COVDATE=new Date().toLocaleDateString('en-US',{month:'long',year:'numeric'});
   const o=readOpts();
-  updateAmps(o); hvacUI(o); updateCustomAmps();
+  applyOptsMode(); updateAmps(o); hvacUI(o); updateCustomAmps();
   if(viewMode==='info'){ g('out').innerHTML=trainingHTML(); return; }
   const asDesignedA=(asDesigned!=='auto')?parseInt(asDesigned,10):null;
 
@@ -3777,7 +3796,8 @@ function render(){
   const beforeDrawn=home.homeAmps;
   const calcSqftL=calcSqft+(o.bsmt?o.bsmtSf:0);
   const homeL=computeHome(calcSqftL,o);                        // larger build base (basement sqft added)
-  const adders=o.options.filter(x=>x.mode==='adder');
+  const optsOn=chk('optson');
+  const adders=optsOn?o.options.filter(x=>x.mode==='adder'):[];
   const future=o.options.filter(x=>x.mode==='future');
   const optAmps=adders.reduce((s,d)=>s+amps(d.va),0);
   const beforeOptions=homeL.homeAmps+optAmps;
@@ -3839,10 +3859,10 @@ function render(){
   const clDedRows=(o.customLoads||[]).filter(c=>c.treat==='ded').map(c=>line(c.label,c.va,A(amps(c.va)))).join("");
   let basisBody='';
   basisBody+=line('General lighting, '+calcSqftL.toLocaleString()+' sf x '+homeL.unit, homeL.lighting,'');
-  basisBody+=line('Small-appliance circuits (3)',homeL.smallApp,'');
+  basisBody+=line('Kitchen small-appliance circuits ('+homeL.kitCkt+' x 1,500)',homeL.smallApp,'');
+  basisBody+=line('Laundry circuit'+(homeL.lauCkt!==1?' ('+homeL.lauCkt+' x 1,500)':''),homeL.laundry,'');
   basisBody+=line('Dishwasher + disposal',homeL.dishDisp,'');
   basisBody+=line('Microwave',homeL.micro,'');
-  basisBody+=line('Clothes washer',homeL.washer,'');
   if(o.vaWH>0) basisBody+=line('Water heater',homeL.wh,A(amps(homeL.wh)));
   if(o.vaDry>0) basisBody+=line('Electric dryer',homeL.dry,A(amps(homeL.dry)));
   if(o.vaCook>0) basisBody+=line('Range / oven / cooktop',homeL.cook,A(amps(homeL.cook)));
@@ -3883,10 +3903,16 @@ function render(){
     +'<div class="futnote"><b>With SPAN:</b> the flexible loads take turns, so about '+futTotalAmps+'A of future load is absorbed in the existing headroom, no panel change and no service upgrade. <b>Without SPAN:</b> adding these raises the calc to about '+A(beforeOptions+futureAmps)+', a '+futClass+' service. Subject to AHJ approval and utility acceptance.</div></section>') : '';
 
   const over=beforeOptions>target;
-  const calcCap=adders.length?(A(beforeDrawn)+' as drawn, '+A(beforeOptions)+' with '+optPhrase+' (NEC '+EDITION+', optional method)'):(A(beforeDrawn)+' as drawn, no options selected yet (NEC '+EDITION+', optional method)');
-  const whyP2=over
+  const drawnOver=beforeDrawn>target;
+  const calcCap=!optsOn?(A(beforeDrawn)+' as drawn (NEC '+EDITION+', optional method)')
+    :(adders.length?(A(beforeDrawn)+' as drawn, '+A(beforeOptions)+' with '+optPhrase+' (NEC '+EDITION+', optional method)'):(A(beforeDrawn)+' as drawn, no options selected yet (NEC '+EDITION+', optional method)'));
+  const whyP2=!optsOn
+    ?(drawnOver
+      ?('As drawn this home calculates to '+A(beforeDrawn)+', which on its own points to a larger service. SPAN Energy Intelligence manages the flexible loads so the home is built on '+A(target)+' instead, and holds there as the homeowner adds load later.')
+      :('As drawn this home fits a '+A(target)+' service with room to spare. SPAN Energy Intelligence protects that headroom, so the homeowner can add an EV, a hot tub, or a pool later without a service upgrade.'))
+    :(over
     ?('Add the '+optPhrase+' to this plan and the calc reaches '+A(beforeOptions)+', which points to a '+svcClass(beforeOptions,target)+' service, larger conductors, a utility review, and a CT cabinet where the AHJ requires one. Across a community that is real cost, and a different electrical design on every elevation.')
-    :('As drawn this plan fits a '+A(target)+' service. Add the flexible options a buyer wants and, without management, each one pushes the calc toward a larger, costlier service, a utility review, and a CT cabinet where the AHJ requires one.');
+    :('As drawn this plan fits a '+A(target)+' service. Add the flexible options a buyer wants and, without management, each one pushes the calc toward a larger, costlier service, a utility review, and a CT cabinet where the AHJ requires one.'));
 
   g('out').innerHTML =
    '<div class="doc">'
@@ -3897,7 +3923,7 @@ function render(){
    +'<h1 class="cov-h">'+builder+'</h1>'
    +'<div class="cov-sub">'+planName+'</div>'
    +'<div class="cov-meta">'+sqft.toLocaleString()+' sq ft  ·  target '+A(target)+' service  ·  '+st+'</div>'
-   +'<div class="cov-lede">A preliminary look at the electrical service this home needs, and how SPAN Energy Intelligence keeps it on the planned service as options are added.</div>'
+   +'<div class="cov-lede">A preliminary look at the electrical service this home needs, and how SPAN Energy Intelligence keeps it on the planned service '+(optsOn?'as options are added':'now and as the homeowner adds load later')+'.</div>'
    +'<div class="exbadge">Example · preliminary · not the engineer of record</div></div>'
    +'<div class="cover-right"><div class="titleblock"><div class="tb-h">Project</div>'
    +'<div class="tb-row"><span>Builder / community</span><b>'+builder+'</b></div>'
@@ -3913,47 +3939,51 @@ function render(){
    +'<div class="coverfoot"><span>SPAN Energy Intelligence℠ · '+reviewName()+'</span><span>Preliminary · subject to AHJ approval and utility acceptance</span></div>'
    +'</div>'
 
-   +'<section><div class="eyebrow">Bottom line</div><h2 class="s-title">Every option a buyer adds points to a larger service. On this home it does not have to.</h2>'
+   +'<section><div class="eyebrow">Bottom line</div><h2 class="s-title">'+(optsOn?'Every option a buyer adds points to a larger service. On this home it does not have to.':'The home as drawn, held on its planned service, with room for what comes next.')+'</h2>'
    +'<div class="bottom"><div class="bl-nums">'
-   +'<div class="bl-one"><div class="bl-big" style="color:'+(beforeOptions>target?red:green)+'">'+A(beforeOptions)+'</div><div class="bl-cap"><b>'+(adders.length?'What the options calculate to':'Calculated demand as drawn')+'</b><br><span class="dim">'+calcCap+'</span></div></div>'
+   +'<div class="bl-one"><div class="bl-big" style="color:'+(beforeDrawn>target&&!optsOn||beforeOptions>target&&optsOn?red:green)+'">'+A(optsOn?beforeOptions:beforeDrawn)+'</div><div class="bl-cap"><b>'+(optsOn?(adders.length?'What the options calculate to':'Calculated demand as drawn'):'Calculated demand as drawn')+'</b><br><span class="dim">'+calcCap+'</span></div></div>'
    +'<div class="bl-one"><div class="bl-big" style="color:'+green+'">'+A(target)+'</div><div class="bl-cap"><b>What this home can be built on with SPAN</b> (NEC 750)'+(holds?'':' *')+'<br><span class="dim">SPAN manages about '+primaryAmps+'A of flexible load, so '+A(target)+' holds with room to spare.</span></div></div>'
-   +'<div class="bl-stats"><div class="bl-st"><span>As drawn</span><b style="color:'+green+'">'+A(beforeDrawn)+'</b></div><div class="bl-st"><span>With every option</span><b style="color:'+(beforeOptions>target?red:green)+'">'+A(beforeOptions)+'</b></div><div class="bl-st prime"><span>Built on, with SPAN</span><b style="color:'+green+'">'+A(target)+'</b></div></div></div>'
+   +(optsOn
+     ?'<div class="bl-stats"><div class="bl-st"><span>As drawn</span><b style="color:'+green+'">'+A(beforeDrawn)+'</b></div><div class="bl-st"><span>With every option</span><b style="color:'+(beforeOptions>target?red:green)+'">'+A(beforeOptions)+'</b></div><div class="bl-st prime"><span>Built on, with SPAN</span><b style="color:'+green+'">'+A(target)+'</b></div></div>'
+     :'<div class="bl-stats"><div class="bl-st"><span>As drawn</span><b style="color:'+(beforeDrawn>target?red:green)+'">'+A(beforeDrawn)+'</b></div><div class="bl-st prime"><span>Built on, with SPAN</span><b style="color:'+green+'">'+A(target)+'</b></div><div class="bl-st"><span>Future headroom</span><b style="color:'+green+'">'+Math.max(0,target-primaryAmps)+'A</b></div></div>')
+   +'</div>'
    +'<div class="why"><div class="why-h">Why this matters</div>'
    +'<p>A load calculation sizes the service as if every load could run at the same moment. A home never works that way. That one assumption is what turns a sold option into a service upgrade.</p>'
    +'<p>'+whyP2+'</p>'
    +'<p>SPAN Energy Intelligence manages the flexible loads so they take turns instead of stacking. One '+A(target)+' service carries the base home and every option, the same way on every plan.</p>'
-   +'<div class="assume-line"><b>Assumption to verify:</b> option circuit sizes, the option feeders routed through SPAN, the '+setpt+'A setpoint, and utility acceptance.</div>'
+   +'<div class="assume-line"><b>Assumption to verify:</b> '+(optsOn?'option circuit sizes, the option feeders routed through SPAN':'the managed circuits routed through SPAN')+', the '+setpt+'A setpoint, and utility acceptance.</div>'
    +(t24?'<div class="t24"><b>California, Title 24.</b> New homes require solar PV and, in most zones, battery storage readiness, with heat pump space and water heating as the baseline. That stacks electric load onto the service, which is where SPAN Energy Intelligence manages the home on one service. Subject to climate zone, code cycle, and AHJ.</div>':'')
    +'</div></div></section>'
 
-   +'<section><div class="eyebrow">Before SPAN</div><h2 class="s-title">The same house, without and with options</h2>'
-   +'<div class="vs">'
-   +'<div class="vsbox"><div class="vs-tag">Without options</div><div class="vs-name">'+planName+'</div><div class="vs-sf">'+sqft.toLocaleString()+' sqft, as drawn</div>'
+   +'<section><div class="eyebrow">Before SPAN</div><h2 class="s-title">'+(optsOn?'The same house, without and with options':'The home as drawn, on its planned service')+'</h2>'
+   +'<div class="vs'+(optsOn?'':' solo')+'">'
+   +'<div class="vsbox"><div class="vs-tag">'+(optsOn?'Without options':'As drawn')+'</div><div class="vs-name">'+planName+'</div><div class="vs-sf">'+sqft.toLocaleString()+' sqft, as drawn</div>'
    +'<div class="vs-chips">'+homeChips.map(c=>'<span>'+c+'</span>').join("")+'</div>'
    +'<div class="vs-dem">Calc demand <b style="color:'+(beforeDrawn>target?red:green)+'">'+A(beforeDrawn)+'</b></div>'+needBar(beforeDrawn)+capBar(capNo,false)+'</div>'
-   +'<div class="vsbox opt"><div class="vs-tag">With options'+(o.bsmt?' (larger build)':'')+'</div><div class="vs-name">'+planName+' + options</div><div class="vs-sf">'+(optChips.length?optChips.join(", "):"no options selected")+'</div>'
+   +(optsOn?('<div class="vsbox opt"><div class="vs-tag">With options'+(o.bsmt?' (larger build)':'')+'</div><div class="vs-name">'+planName+' + options</div><div class="vs-sf">'+(optChips.length?optChips.join(", "):"no options selected")+'</div>'
    +'<div class="vs-chips">'+optChips.map(c=>'<span>'+c+'</span>').join("")+'</div>'
-   +'<div class="vs-dem">Calc demand <b style="color:'+(beforeOptions>target?red:green)+'">'+A(beforeOptions)+'</b></div>'+needBar(beforeOptions)+capBar(capWith,false)+'</div>'
+   +'<div class="vs-dem">Calc demand <b style="color:'+(beforeOptions>target?red:green)+'">'+A(beforeOptions)+'</b></div>'+needBar(beforeOptions)+capBar(capWith,false)+'</div>'):'')
    +'</div>'
    +'<div class="basis2"><div><span>Utility and code basis</span><b>'+utility+' · '+st+' · NEC '+EDITION+'</b></div><div><span>Service as designed today</span><b>'+(asDesignedA?A(asDesignedA):'Derived from the calc: '+svcClass(beforeOptions,target))+'</b></div></div></section>'
 
-   +'<section><div class="eyebrow">Service size strategy and builder outcome</div><h2 class="s-title">Same house. SPAN may support a different service strategy.</h2>'
+   +'<section><div class="eyebrow">Service size strategy and builder outcome</div><h2 class="s-title">'+(optsOn?'Same house. SPAN may support a different service strategy.':'The home as drawn. SPAN may support holding it on '+A(target)+'.')+'</h2>'
    +'<div class="strat-head"><div></div><div class="sh red">Without SPAN</div><div class="sh green">With SPAN Energy Intelligence</div></div>'
-   +'<div class="srow"><div class="s-plan"><div class="s-role">Without options</div><div class="s-name">'+planName+'</div><div class="s-sf">'+sqft.toLocaleString()+' sqft</div></div>'
+   +'<div class="srow"><div class="s-plan"><div class="s-role">'+(optsOn?'Without options':'As drawn')+'</div><div class="s-name">'+planName+'</div><div class="s-sf">'+sqft.toLocaleString()+' sqft</div></div>'
      +'<div class="s-box '+(beforeDrawn>target?'red':'green')+'"><div class="s-big">'+(beforeDrawn>target?svcClass(beforeDrawn,target):A(target))+'</div><div class="s-lab">'+(beforeDrawn>target?'Existing design strategy':'Fits '+A(target))+'</div></div>'
      +'<div class="s-box green"><div class="s-big">'+A(target)+'</div><div class="s-lab">SPAN may support staying at '+A(target)+' *</div></div></div>'
-   +'<div class="srow"><div class="s-plan"><div class="s-role">With options</div><div class="s-name">'+planName+' + options</div><div class="s-sf">'+optPhrase+'</div></div>'
+   +(optsOn?('<div class="srow"><div class="s-plan"><div class="s-role">With options</div><div class="s-name">'+planName+' + options</div><div class="s-sf">'+optPhrase+'</div></div>'
      +'<div class="s-box red"><div class="s-big">'+((asDesignedA&&asDesignedA>target)?A(asDesignedA):svcClass(beforeOptions,target))+'</div><div class="s-lab">'+((asDesignedA&&asDesignedA>target)?'Designed to '+A(asDesignedA)+' today':'Over '+A(target)+'. Default: '+svcClass(beforeOptions,target)+' service')+'</div></div>'
-     +'<div class="s-box green"><div class="s-big">'+A(target)+'</div><div class="s-lab">SPAN may support staying at '+A(target)+' *</div></div></div>'
+     +'<div class="s-box green"><div class="s-big">'+A(target)+'</div><div class="s-lab">SPAN may support staying at '+A(target)+' *</div></div></div>'):'')
    +'<div class="outcomes">'
-     +'<div class="oc"><b>Avoids a larger service</b><span>'+A(target)+' instead of a '+svcClass(beforeOptions,target)+' service across the options.</span></div>'
-     +'<div class="oc"><b>Standardized design</b><span>One electrical strategy for every plan and every option.</span></div>'
-     +'<div class="oc"><b>Reduced utility friction</b><span>No service upsize request when a buyer adds options.</span></div>'
-     +'<div class="oc"><b>Future ready</b><span>RV garage, pool or spa, and EV on a '+A(target)+' service'+(ssClause?", "+ssClause:"")+'.</span></div>'
+     +(optsOn?'<div class="oc"><b>Avoids a larger service</b><span>'+A(target)+' instead of a '+svcClass(beforeOptions,target)+' service across the options.</span></div>'
+             :'<div class="oc"><b>Holds the planned service</b><span>'+A(target)+', protected as the homeowner adds load later.</span></div>')
+     +'<div class="oc"><b>Standardized design</b><span>One electrical strategy for every plan'+(optsOn?' and every option':'')+'.</span></div>'
+     +'<div class="oc"><b>Reduced utility friction</b><span>No service upsize request when '+(optsOn?'a buyer adds options':'the homeowner adds load later')+'.</span></div>'
+     +'<div class="oc"><b>Future ready</b><span>EV, pool or spa, and more on a '+A(target)+' service'+(ssClause?", "+ssClause:"")+'.</span></div>'
    +'</div>'
    +'<div class="fine">* Subject to AHJ approval and utility acceptance. SPAN Energy Intelligence supports dynamic load management under NEC Article 750. Final service rating depends on plan-specific load calculations and final engineering review by the engineer of record.</div></section>'
 
-   +'<section><div class="eyebrow">Not every load needs to run at once</div><h2 class="s-title">The options that push past '+A(target)+', and how SPAN may manage them.</h2>'
+   +'<section><div class="eyebrow">Not every load needs to run at once</div><h2 class="s-title">'+(optsOn?'The options that push past '+A(target)+', and how SPAN may manage them.':'The flexible loads SPAN manages to hold '+A(target)+'.')+'</h2>'
    +'<div class="cands">'+primary.map(candCard).join("")+climate.map(candCard).join("")+'</div>'
    +'<div class="neverbox"><div class="never-h">Stays on, never curtailed</div>'
    +'<div class="nevergrp"><div class="never-sub">Operated directly by a person</div><div class="never-b">'+personList.map(x=>'<span>'+x+'</span>').join("")+'</div>'
@@ -3964,7 +3994,7 @@ function render(){
 
    +futureSection
 
-   +'<section><div class="eyebrow">Single line outcome</div><h2 class="s-title">One SPAN panel holds the home and the options.</h2>'
+   +'<section><div class="eyebrow">Single line outcome</div><h2 class="s-title">One SPAN panel holds the home'+(optsOn?' and the options':'')+'.</h2>'
    +'<div class="ctrlgrid"><div class="ctrlcol ctrl-y"><div class="ctrl-h">Candidates for SPAN control</div>'
      +primary.map(c=>'<div class="ctrl-row"><span>'+c.label+'</span><b>'+A(amps(c.va))+'</b></div>').join("")
      +climate.map(c=>'<div class="ctrl-row"><span>'+c.label+' <i>(last)</i></span><b>'+A(amps(c.va))+'</b></div>').join("")+'</div>'
@@ -3976,11 +4006,11 @@ function render(){
    +'<div class="sldnote"><b>'+setpt+'A EMS setpoint · meter main '+A(target)+' · SPAN panel bus bar 225A.</b> SPAN comms require Cat5e or greater from the router location to SPAN, and to the EV locations. Circuit assignments illustrative.</div>'
    +'</section>'+sldSection
 
-   +'<section class="calcpage"><div class="eyebrow">Load calc basis and assumptions</div><p class="sintro">Home as drawn on the optional method, plus the selected options at nameplate. Two-pole loads are editable to match the plan set. Preliminary.</p>'
+   +'<section class="calcpage"><div class="eyebrow">Load calc basis and assumptions</div><p class="sintro">Home as drawn on the optional method'+(adders.length?', plus the selected options at nameplate':'')+'. Two-pole loads are editable to match the plan set. Preliminary.</p>'
    +'<div class="tw exwrap"><div class="exwm">EXAMPLE</div><table class="basis"><thead><tr><th>Item (VA unless noted)</th><th>VA</th><th>Amps</th></tr></thead><tbody>'+basisBody
    +homeRow+optRowsB
-   +'<tr class="tot2"><td class="l">Total with all options</td><td>'+(beforeOptions*240).toLocaleString()+'</td><td><b>'+A(beforeOptions)+'</b></td></tr>'
-   +'<tr class="span"><td class="l">With SPAN: '+setpt+'A setpoint, '+A(target)+' service</td><td></td><td><b>shed '+shed+'A</b></td></tr>'
+   +(adders.length?'<tr class="tot2"><td class="l">Total with all options</td><td>'+(beforeOptions*240).toLocaleString()+'</td><td><b>'+A(beforeOptions)+'</b></td></tr>':'')
+   +'<tr class="span"><td class="l">With SPAN: '+setpt+'A setpoint, '+A(target)+' service</td><td></td><td><b>'+(shed>0?'shed '+shed+'A':'holds at '+A(target))+'</b></td></tr>'
    +'</tbody></table></div>'
    +'<div class="assume"><div class="assume-h">Assumptions to verify</div><ol>'+assume.map(a=>'<li>'+a+'</li>').join("")+'</ol></div>'
    +'<div class="discl"><p>This document is provided by SPAN Energy Intelligence℠ for preliminary design review, planning, and discussion purposes only. It is not a final electrical design, stamped engineering document, permit document, or substitute for a project-specific electrical load calculation.</p></div></section>'
