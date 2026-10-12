@@ -48,6 +48,20 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--ff);font-si
 .optrow .optva{background:#101210;border:1px solid var(--line);color:var(--fg);border-radius:6px;padding:6px 5px;font-size:11.5px;font-family:inherit;width:100%}
 .optrow .am2{display:block;font-size:9.5px;color:var(--green);font-weight:700;text-align:right;margin-top:1px}
 .optrow .optmode:focus,.optrow .optva:focus{outline:2px solid var(--green);border-color:var(--green)}
+.railadd{display:block;width:100%;margin-top:4px;background:#0f241a;border:1px dashed #17502f;color:var(--green);border-radius:7px;padding:8px 10px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit}
+.railadd:hover{border-color:var(--green);border-style:solid}
+.clrow{border:1px solid var(--line);border-radius:8px;padding:8px;margin-bottom:8px;background:#0d0f0d}
+.clr1{display:grid;grid-template-columns:1fr 30px;gap:6px;align-items:center}
+.clr2{display:flex;gap:6px;align-items:center;margin-top:6px}
+.clrow select,.clrow input{background:#101210;border:1px solid var(--line);color:var(--fg);border-radius:6px;padding:6px 6px;font-size:11.5px;font-family:inherit}
+.clrow .cl-sel{width:100%}
+.clrow .cl-name{flex:1.4;min-width:0}
+.clrow .cl-va{width:56px}
+.clrow .cl-amp{font-size:9.5px;color:var(--green);font-weight:700;width:26px;text-align:right}
+.clrow .cl-treat{flex:1;min-width:0}
+.clrow .cl-rm{background:none;border:1px solid var(--line);color:var(--muted);border-radius:6px;font-size:15px;line-height:1;cursor:pointer;padding:4px 0;font-family:inherit}
+.clrow .cl-rm:hover{color:var(--red);border-color:var(--red)}
+.clrow select:focus,.clrow input:focus{outline:2px solid var(--green);border-color:var(--green)}
 .futgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:16px}
 .futcard{border:1px solid #abe0c3;background:var(--greenwash);border-radius:11px;padding:14px 16px}
 .futcard-h{display:flex;align-items:center;gap:9px}
@@ -266,6 +280,10 @@ table.basis tr.span td{background:var(--greenwash);font-weight:700;color:#0a7a45
         <div class="fld" id="fld_strip2"><label><span id="lbl_strip2">2nd backup strips (kW)</span></label><input id="strip2kw" type="number" value="0"></div></div>
       <label class="ck"><input type="checkbox" id="acreserve"> Allow A/C and heat as last-resort holds</label>
       <div class="hint">Pick the system and the right heat field appears. Change a value to match the plan, or set it to 0 for none. The 120V general loads follow the NEC optional method and are baked in.</div></div>
+    <div class="grp"><h4>Additional home loads</h4>
+      <div id="customloads"></div>
+      <button type="button" id="addload" class="railadd">+ Add appliance or load</button>
+      <div class="hint">Add anything the plan includes beyond the standard loads, a wall oven, cooktop, hood, fireplace, second dryer, a pool pump. Pick the appliance, set its VA, and choose Fixed, which rides the optional method, or Dedicated, which counts at full nameplate. These land in the home as drawn.</div></div>
     <div class="grp"><h4>Buyer options and adders</h4>
       <div class="opthead"><span>Mode</span><span>Option</span><span>VA</span></div>
       <div class="optrow"><select id="m_ev2" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">2nd EV charger (50A)</span><input id="v_ev2" class="optva" type="number" value="11000"><span class="amp am2" id="a_ev2"></span></div><div class="optrow"><select id="m_rvg" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">RV garage (RVG) subpanel</span><input id="v_rvg" class="optva" type="number" value="12000"><span class="amp am2" id="a_rvg"></span></div><div class="optrow"><select id="m_poolspa" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Pool / spa circuit</span><input id="v_poolspa" class="optva" type="number" value="9600"><span class="amp am2" id="a_poolspa"></span></div><div class="optrow"><select id="m_poolheat" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Electric pool heater</span><input id="v_poolheat" class="optva" type="number" value="11520"><span class="amp am2" id="a_poolheat"></span></div><div class="optrow"><select id="m_casita" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Casita / ADU subpanel</span><input id="v_casita" class="optva" type="number" value="9000"><span class="amp am2" id="a_casita"></span></div><div class="optrow"><select id="m_shop" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Workshop / detached garage</span><input id="v_shop" class="optva" type="number" value="7200"><span class="amp am2" id="a_shop"></span></div><div class="optrow"><select id="m_outkit" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Outdoor kitchen (240V)</span><input id="v_outkit" class="optva" type="number" value="7200"><span class="amp am2" id="a_outkit"></span></div><div class="optrow"><select id="m_snowmelt" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Snow melt / heated driveway</span><input id="v_snowmelt" class="optva" type="number" value="12000"><span class="amp am2" id="a_snowmelt"></span></div><div class="optrow"><select id="m_hpwh" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Electric / heat-pump water heater</span><input id="v_hpwh" class="optva" type="number" value="4500"><span class="amp am2" id="a_hpwh"></span></div><div class="optrow"><select id="m_wellpump" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Well or irrigation pump</span><input id="v_wellpump" class="optva" type="number" value="3600"><span class="amp am2" id="a_wellpump"></span></div><div class="optrow"><select id="m_floorheat" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Heated floors (electric)</span><input id="v_floorheat" class="optva" type="number" value="5000"><span class="amp am2" id="a_floorheat"></span></div><div class="optrow"><select id="m_ac2" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Second A/C zone</span><input id="v_ac2" class="optva" type="number" value="7000"><span class="amp am2" id="a_ac2"></span></div><div class="optrow"><select id="m_range2" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Induction range or double oven</span><input id="v_range2" class="optva" type="number" value="10000"><span class="amp am2" id="a_range2"></span></div><div class="optrow"><select id="m_sauna" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">Sauna</span><input id="v_sauna" class="optva" type="number" value="7200"><span class="amp am2" id="a_sauna"></span></div><div class="optrow"><select id="m_rv" class="optmode"><option value="off" selected>Off</option><option value="adder">Adder</option><option value="future">Future</option></select><span class="optlab">RV outlet (50A, 14-50)</span><input id="v_rv" class="optva" type="number" value="9600"><span class="amp am2" id="a_rv"></span></div>
@@ -3633,7 +3651,7 @@ function computeHome(calcSqft,o){
   const lighting=Math.round(calcSqft*unit);
   const smallApp=4500, dishDisp=1500, micro=1200, washer=1500;   // baked-in 120V general loads
   const wh=o.vaWH||0, dry=o.vaDry||0, cook=o.vaCook||0;
-  const generalPool=lighting+smallApp+dishDisp+micro+washer+wh+dry+cook;
+  const generalPool=lighting+smallApp+dishDisp+micro+washer+wh+dry+cook+(o.cFixed||0);  // custom fixed appliances ride the optional method
   const generalDemand=Math.round(Math.min(10000,generalPool)+Math.max(0,generalPool-10000)*0.4);
   /* one HVAC system: cooling is condenser + air handler; heating adds electric heat for heat pump (compressor + strips) or electric furnace. 220.60 takes the larger, except a heat pump runs with its backup so those add. */
   const sysHVAC=(ac,ah,strip,heat)=>{ const cool=ac+ah; const heatV=(heat==='hp')?(ac+strip+ah):(heat==='elec')?(strip+ah):0; return {gov:Math.max(cool,heatV), governsHeat:heatV>cool}; };
@@ -3642,7 +3660,7 @@ function computeHome(calcSqft,o){
   const s2=o.hvac2? sysHVAC(o.vaAC2||0, o.vaAH2||0, (o.strip2Kw||0)*1000, o.heat) : {gov:0,governsHeat:false};
   const hvacVA=s1.gov+s2.gov;
   const garageVA=o.vaEV||0;
-  const homeVA=generalDemand+hvacVA+garageVA;
+  const homeVA=generalDemand+hvacVA+garageVA+(o.cDed||0);  // custom dedicated loads count at 100% nameplate
   return {unit,lighting,smallApp,dishDisp,micro,washer,wh,dry,cook,generalPool,generalDemand,hvacVA,hvac1:s1.gov,hvac2:s2.gov,governsHeat:s1.governsHeat,garageVA,homeVA,homeAmps:Math.ceil(homeVA/240)};
 }
 function svcClass(d,t){ if(d<=t)return t+"A"; if(d<=400)return "400A class"; if(d<=600)return "600A class"; return "800A class"; }
@@ -3656,6 +3674,14 @@ function readOpts(){
     bsmt:chk('bsmt'), bsmtSf:Math.max(0,Math.round(num('bsmtsf',0))) };
   o.options=CATALOG.map(c=>({key:c.key,label:c.label,role:c.role,pri:c.pri,why:c.why,
     mode:(val('m_'+c.key)||'off'), va:Math.max(0,num('v_'+c.key,c.va))})).filter(x=>x.mode!=='off');
+  o.customLoads=[]; o.cFixed=0; o.cDed=0;
+  document.querySelectorAll('#customloads .clrow').forEach(r=>{
+    const sel=r.querySelector('.cl-sel'); if(!sel||!sel.value) return;
+    const va=Math.max(0,parseFloat((r.querySelector('.cl-va')||{}).value)||0); if(va<=0) return;
+    const treat=((r.querySelector('.cl-treat')||{}).value)||'fixed';
+    const nm=(r.querySelector('.cl-name')||{}).value; const label=(nm&&nm.trim())||sel.options[sel.selectedIndex].text;
+    o.customLoads.push({label,va,treat}); if(treat==='ded') o.cDed+=va; else o.cFixed+=va;
+  });
   return o;
 }
 /* relabel and show/hide the HVAC fields to match the chosen system */
@@ -3678,6 +3704,31 @@ function updateAmps(o){
   CATALOG.forEach(c=>{ const m=val('m_'+c.key)||'off'; set('a_'+c.key, m==='off'?0:Math.max(0,num('v_'+c.key,c.va))); });
 }
 
+/* ---- Additional home loads: pick any appliance, VA editable, fixed vs dedicated treatment ---- */
+const CL_PRESETS=[
+ {g:'Fixed appliances',items:[['Dishwasher',1500],['Garbage disposal',900],['Microwave',1900],['Range hood',1500],['Wall oven',4800],['Double wall oven',8000],['Cooktop',8000],['Second range or oven',8000],['Warming drawer',1000],['Electric fireplace',1500],['Trash compactor',1000],['Instant hot water',1500],['Water softener',1200],['Wine or beverage fridge',600],['Second refrigerator or freezer',1000],['Whole house or attic fan',1200],['Steam shower generator',7000],['Second electric water heater',4500],['Other fixed appliance',0]]},
+ {g:'Dedicated loads (100%)',items:[['Pool pump',1500],['Spa or hot tub',11500],['Electric pool heater',11500],['Well pump',2400],['Sump or sewage pump',1000],['Irrigation controller',600],['Sauna',9000],['Workshop subpanel',7200],['Detached garage subpanel',7200],['Snow melt or heated driveway',12000],['Second EV charger',11000],['Other dedicated load',0]]}
+];
+function clOptionsHTML(){ let h='<option value="">Add appliance...</option>';
+  CL_PRESETS.forEach(grp=>{ const treat=/Dedicated/.test(grp.g)?'ded':'fixed'; h+='<optgroup label="'+grp.g+'">';
+    grp.items.forEach(it=>{ h+='<option value="'+it[0]+'" data-va="'+it[1]+'" data-treat="'+treat+'">'+it[0]+'</option>'; });
+    h+='</optgroup>'; });
+  return h; }
+function fillCustomRow(row){ const sel=row.querySelector('.cl-sel'); const opt=sel.options[sel.selectedIndex]; if(!opt||!sel.value) return;
+  const va=opt.getAttribute('data-va'), treat=opt.getAttribute('data-treat');
+  if(va!=null && va!=='0') row.querySelector('.cl-va').value=va;
+  if(treat) row.querySelector('.cl-treat').value=treat; }
+function addCustomLoad(){ const box=g('customloads'); if(!box) return;
+  const row=document.createElement('div'); row.className='clrow';
+  row.innerHTML='<div class="clr1"><select class="cl-sel">'+clOptionsHTML()+'</select><button type="button" class="cl-rm" title="Remove">&times;</button></div>'
+   +'<div class="clr2"><input class="cl-name" placeholder="label (optional)"><input class="cl-va" type="number" placeholder="VA"><span class="amp cl-amp"></span>'
+   +'<select class="cl-treat"><option value="fixed">Fixed</option><option value="ded">Dedicated</option></select></div>';
+  box.appendChild(row);
+  row.querySelector('.cl-sel').addEventListener('change',()=>{ fillCustomRow(row); render(); });
+  row.querySelector('.cl-rm').addEventListener('click',()=>{ row.remove(); render(); });
+  row.querySelector('.cl-sel').focus(); }
+function updateCustomAmps(){ document.querySelectorAll('#customloads .clrow').forEach(r=>{ const va=Math.max(0,parseFloat((r.querySelector('.cl-va')||{}).value)||0); const a=r.querySelector('.cl-amp'); if(a) a.textContent=va>0?(amps(va)+'A'):''; }); }
+
 function trainingHTML(){
   const step=(n,h,b)=>'<div class="stp"><div class="stp-n">'+n+'</div><div class="stp-b"><b>'+h+'</b><span>'+b+'</span></div></div>';
   return '<div class="doc">'
@@ -3687,7 +3738,7 @@ function trainingHTML(){
    +'<p class="tpara">You enter a few things about the home and the options a buyer can add. The tool runs the same NEC optional method an engineer would, then shows how SPAN Energy Intelligence keeps the home on its planned service instead of forcing a larger one. You do not need to be an electrician. The two-pole loads are already set to standard values, and you only change them to match a specific plan.</p></section>'
    +'<section><div class="eyebrow">Build a review</div><h2 class="s-title">Five steps</h2>'
    +step('1','Project','Builder or community, plan name, square footage, state, and utility. The state sets the NEC edition, or pick it by hand for a jurisdiction that adopted early. Set "service as designed today" to what the builder specs now, often 320A or 400A, so the review shows that next to the 200A SPAN supports. There is no market or region field; the state and the builder name carry the location.')
-   +step('2','Base home, the two-pole loads','Range, dryer, water heater, and the garage EV outlet come pre-filled to standard values. The Appliances control flips the range, dryer, and water heater to all electric or gas in one click. Change any value to match the plan load calc, or set it to 0 for none. The amps update as you type.')
+   +step('2','Base home, the two-pole loads','Range, dryer, water heater, and the garage EV outlet come pre-filled to standard values. The Appliances control flips the range, dryer, and water heater to all electric or gas in one click. Change any value to match the plan load calc, or set it to 0 for none. The amps update as you type. Under Additional home loads you can add anything else the plan includes, a wall oven, cooktop, hood, fireplace, second dryer, a pool pump. Pick the appliance, set its VA, and choose Fixed, which rides the optional method, or Dedicated, which counts at full nameplate like the EV. These land in the home as drawn and show in the load calc basis.')
    +step('3','Heating and cooling','Pick the system and the right field appears. Gas furnace shows only the condenser and air handler, since heat is gas. A heat pump shows the compressor plus backup strips, which run together in heating, so the number is higher. An electric furnace shows a furnace kW field. The tool counts the larger of heating or cooling, since they do not run at once. Turn on a second HVAC system for larger plans that run two condensers.')
    +step('4','Options and adders','For each option a buyer can buy, choose Off, Adder, or For future. Adder stacks on the With Options number now. For future shows it can be added later with no service upgrade. Set the VA to match the option sheet. Turn on a finished basement to add its square footage to the larger build, and set solar and storage readiness.')
    +step('5','Single line and output','Open the SLD creator or attach an image; the single line page appears in the PDF only when you add one. The Builder and Project toggle at the top left names the review for a homebuilder or, for the B2B team, a project. Then View or Download the PDF.')
@@ -3718,7 +3769,7 @@ function render(){
   const asDesigned=val('asdesigned')||'auto';
   const COVDATE=new Date().toLocaleDateString('en-US',{month:'long',year:'numeric'});
   const o=readOpts();
-  updateAmps(o); hvacUI(o);
+  updateAmps(o); hvacUI(o); updateCustomAmps();
   if(viewMode==='info'){ g('out').innerHTML=trainingHTML(); return; }
   const asDesignedA=(asDesigned!=='auto')?parseInt(asDesigned,10):null;
 
@@ -3771,7 +3822,7 @@ function render(){
     const gp=Math.round(target/maxA*100), rp=Math.max(0,Math.round(before/maxA*100)-gp);
     return '<div class="cap"><div class="caplab"><span class="caplab-r">Without SPAN</span><span class="caplab-n"><b style="color:var(--red)">'+before+'A</b>, '+over+'A over '+target+'A</span></div>'
      +'<div class="need-bar"><div class="need-ok" style="width:'+gp+'%"></div><div class="need-x" style="left:'+gp+'%;width:'+rp+'%"></div><div class="need-line" style="left:'+gp+'%"></div></div>'
-     +'<div class="cap-row dim"><span>'+(asDesignedA&&asDesignedA>target?'Designed to a <b style="color:var(--red)">'+asDesignedA+'A</b> service today':'Default outcome: a <b style="color:var(--red)">'+cls+'</b> service')+', a CT cabinet, larger conductors, a utility review</span><span>'+target+'A line</span></div></div>'; };
+     +'<div class="cap-row dim"><span>'+(asDesignedA&&asDesignedA>target?'Designed to a <b style="color:var(--red)">'+asDesignedA+'A</b> service today':'Default outcome: a <b style="color:var(--red)">'+cls+'</b> service')+', larger conductors, a utility review, and a CT cabinet where the AHJ requires one</span><span>'+target+'A line</span></div></div>'; };
 
   const candCard=c=>'<div class="cand'+(c.role==='climate'?' climate':'')+'"><div class="cand-h"><span class="cand-ic">'+iconSvg(c.label)+'</span><span class="cand-n">'+c.label+'</span><span class="cand-a">'+A(amps(c.va))+'</span></div>'
     +'<div class="cand-m"><span class="pill">Shed '+c.pri+'</span><span class="pill ok">Impact '+(c.pri==='Med'||c.pri==='Low'?'Low':'Min')+'</span></div>'
@@ -3779,10 +3830,13 @@ function render(){
 
   const homeChips=[]; homeChips.push(o.heat==='hp'?'Heat pump':(o.heat==='elec'?'Electric furnace + A/C':'Gas furnace + A/C'));
   if(o.vaCook>0) homeChips.push('Electric range'); if(o.vaDry>0) homeChips.push('Electric dryer'); if(o.vaWH>0) homeChips.push('Electric water heater'); if(o.vaEV>0) homeChips.push('Garage EV outlet');
+  (o.customLoads||[]).forEach(c=>homeChips.push(c.label));
   const optChips=adders.map(d=>d.label.replace(/ \(.*/,'')); if(o.bsmt) optChips.unshift('Finished basement '+o.bsmtSf.toLocaleString()+' sf');
 
   /* basis table rows */
   const line=(l,va,amp)=>'<tr><td class="l">'+l+'</td><td>'+(va!=null?va.toLocaleString():'')+'</td><td>'+(amp||'')+'</td></tr>';
+  const clFixedRows=(o.customLoads||[]).filter(c=>c.treat!=='ded').map(c=>line(c.label,c.va,A(amps(c.va)))).join("");
+  const clDedRows=(o.customLoads||[]).filter(c=>c.treat==='ded').map(c=>line(c.label,c.va,A(amps(c.va)))).join("");
   let basisBody='';
   basisBody+=line('General lighting, '+calcSqftL.toLocaleString()+' sf x '+homeL.unit, homeL.lighting,'');
   basisBody+=line('Small-appliance circuits (3)',homeL.smallApp,'');
@@ -3792,10 +3846,12 @@ function render(){
   if(o.vaWH>0) basisBody+=line('Water heater',homeL.wh,A(amps(homeL.wh)));
   if(o.vaDry>0) basisBody+=line('Electric dryer',homeL.dry,A(amps(homeL.dry)));
   if(o.vaCook>0) basisBody+=line('Range / oven / cooktop',homeL.cook,A(amps(homeL.cook)));
+  basisBody+=clFixedRows;
   basisBody+='<tr class="sub"><td class="l">Total less heating and cooling</td><td>'+homeL.generalPool.toLocaleString()+'</td><td></td></tr>';
   basisBody+='<tr class="sub"><td class="l">First 10 kVA at 100% + remainder at 40%</td><td>'+homeL.generalDemand.toLocaleString()+'</td><td></td></tr>';
   basisBody+=line('HVAC at 100% (larger of heat or cool)',homeL.hvacVA,A(amps(homeL.hvacVA)));
   if(o.vaEV>0) basisBody+=line('Optional 240V at garage (EV ready)',homeL.garageVA,A(amps(homeL.garageVA)));
+  basisBody+=clDedRows;
   const homeRow='<tr class="tot"><td class="l">Home total, as drawn</td><td>'+homeL.homeVA.toLocaleString()+'</td><td><b>'+A(homeL.homeAmps)+'</b></td></tr>';
   const optRowsB=adders.map(d=>'<tr class="opt"><td class="l">+ '+d.label+'</td><td>'+d.va.toLocaleString()+'</td><td><b>'+A(amps(d.va))+'</b></td></tr>').join("");
 
@@ -3829,8 +3885,8 @@ function render(){
   const over=beforeOptions>target;
   const calcCap=adders.length?(A(beforeDrawn)+' as drawn, '+A(beforeOptions)+' with '+optPhrase+' (NEC '+EDITION+', optional method)'):(A(beforeDrawn)+' as drawn, no options selected yet (NEC '+EDITION+', optional method)');
   const whyP2=over
-    ?('Add the '+optPhrase+' to this plan and the calc reaches '+A(beforeOptions)+', which points to a '+svcClass(beforeOptions,target)+' service, a CT cabinet, larger conductors, and a utility review. Across a community that is real cost, and a different electrical design on every elevation.')
-    :('As drawn this plan fits a '+A(target)+' service. Add the flexible options a buyer wants and, without management, each one pushes the calc toward a larger, costlier service, a CT cabinet, and a utility review.');
+    ?('Add the '+optPhrase+' to this plan and the calc reaches '+A(beforeOptions)+', which points to a '+svcClass(beforeOptions,target)+' service, larger conductors, a utility review, and a CT cabinet where the AHJ requires one. Across a community that is real cost, and a different electrical design on every elevation.')
+    :('As drawn this plan fits a '+A(target)+' service. Add the flexible options a buyer wants and, without management, each one pushes the calc toward a larger, costlier service, a utility review, and a CT cabinet where the AHJ requires one.');
 
   g('out').innerHTML =
    '<div class="doc">'
@@ -3955,6 +4011,7 @@ document.addEventListener('change',e=>{ if(e.target.closest('.rail')){ if(e.targ
 let DEFAULTS={};
 function captureDefaults(){ document.querySelectorAll('.rail input,.rail select').forEach(el=>{ DEFAULTS[el.id]=(el.type==='checkbox')?el.checked:el.value; }); }
 function clearAll(){ document.querySelectorAll('.rail input,.rail select').forEach(el=>{ if(!(el.id in DEFAULTS)) return; if(el.type==='checkbox') el.checked=DEFAULTS[el.id]; else el.value=DEFAULTS[el.id]; });
+  const clb=g('customloads'); if(clb) clb.innerHTML="";
   SLD=null; const fi=g('sldfile'); if(fi) fi.value=""; sldStatus(); render(); }
 
 const pb=document.getElementById('btn-pdf'), pv=document.getElementById('btn-view'), pc=document.getElementById('btn-clear');
@@ -3962,6 +4019,7 @@ function pdfAction(){ if(viewMode==='info'){ const bn=g('barnote'); if(bn){ bn.c
 if(pb) pb.addEventListener('click',pdfAction);
 if(pv) pv.addEventListener('click',pdfAction);
 if(pc) pc.addEventListener('click',clearAll);
+const alb=document.getElementById('addload'); if(alb) alb.addEventListener('click',addCustomLoad);
 function setType(v){ reviewType=v; document.querySelectorAll('#seg-type button').forEach(b=>b.classList.toggle('on',b.dataset.v===v)); render(); }
 function setView(v){ viewMode=v; document.querySelectorAll('#seg-view button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
   const info=v==='info'; const bn=g('barnote'); if(bn){ bn.hidden=!info; bn.textContent=info?'PDF is produced as the customer leave-behind from the Design Review view.':''; }
